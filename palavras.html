@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Minhas frases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F4F9;
+    --surface: #FFFFFF;
+    --surface-2: #F0F0F7;
+    --surface-3: #E7E7F2;
+    --text: #1B1A2E;
+    --muted: #6E6D85;
+    --line: #E4E3EE;
+    --brand: #5B4BDB;
+    --brand-soft: #ECE9FE;
+    --brand-ink: #4A3BC4;
+    --on-brand: #FFFFFF;
+    --reveal-bg: #E3F6EC;
+    --reveal-ink: #17734A;
+    --audio-bg: #E2F3F8;
+    --audio-ink: #1D6E86;
+    --gold-bg: #FFF1C9;
+    --gold-ink: #7A5600;
+    --gold-line: #F1CF6B;
+    --ok: #17915A;
+    --bad: #D9435A;
+    --warn: #B7791F;
+    --r-lg: 24px;
+    --r-md: 16px;
+    --r-sm: 12px;
+    --shadow: 0 1px 2px rgba(27,26,46,.04), 0 6px 20px -10px rgba(27,26,46,.16);
+    --shadow-lg: 0 2px 4px rgba(27,26,46,.04), 0 18px 40px -18px rgba(27,26,46,.28);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F0F1A; --surface: #181828; --surface-2: #212135; --surface-3: #2A2A42;
+      --text: #ECEBF5; --muted: #9897B0; --line: #2C2B44;
+      --brand: #8A7CFF; --brand-soft: #29264A; --brand-ink: #B3A9FF; --on-brand: #12111F;
+      --reveal-bg: #163428; --reveal-ink: #7FE0B0; --audio-bg: #16303A; --audio-ink: #84D3EA;
+      --gold-bg: #3A3016; --gold-ink: #F3D27A; --gold-line: #8C7330;
+      --ok: #52D69B; --bad: #FF7D8F; --warn: #F0B65A;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+      --shadow-lg: 0 2px 4px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F0F1A; --surface: #181828; --surface-2: #212135; --surface-3: #2A2A42;
+    --text: #ECEBF5; --muted: #9897B0; --line: #2C2B44;
+    --brand: #8A7CFF; --brand-soft: #29264A; --brand-ink: #B3A9FF; --on-brand: #12111F;
+    --reveal-bg: #163428; --reveal-ink: #7FE0B0; --audio-bg: #16303A; --audio-ink: #84D3EA;
+    --gold-bg: #3A3016; --gold-ink: #F3D27A; --gold-line: #8C7330;
+    --ok: #52D69B; --bad: #FF7D8F; --warn: #F0B65A;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+    --shadow-lg: 0 2px 4px rgba(0,0,0,.3), 0 20px 44px -18px rgba(0,0,0,.7);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 780px; margin: 0 auto; padding: 24px 16px 112px; display: flex; flex-direction: column; gap: 16px; }
+  button { font: inherit; cursor: pointer; }
+  button:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand) 55%, transparent); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+
+  /* ---------- topo ---------- */
+  .hero {
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--brand); color: #fff; border-radius: 28px; padding: 28px 24px 24px;
+    box-shadow: var(--shadow-lg);
+  }
+  :root:not([data-theme="light"]) .hero { color: #fff; }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; z-index: -1; background: #fff;
+  }
+  .hero::before { width: 260px; height: 260px; right: -90px; top: -110px; opacity: .10; }
+  .hero::after { width: 140px; height: 140px; right: 90px; top: -70px; opacity: .06; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: #4B3FBF; } }
+  :root[data-theme="dark"] .hero { background: #4B3FBF; }
+  .hero-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  h1 {
+    font-family: "Sora", system-ui, sans-serif; font-weight: 700;
+    font-size: clamp(1.9rem, 6vw, 2.5rem); line-height: 1.05; letter-spacing: -0.03em; margin: 0;
+  }
+  .sub { margin: 8px 0 0; opacity: .82; max-width: 36ch; font-size: 0.98rem; }
+  .day-streak {
+    font-weight: 700; font-size: 0.82rem; line-height: 1.3;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.18);
+    padding: 7px 12px; border-radius: 999px; max-width: 260px;
+  }
+  .stats {
+    margin-top: 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16); border-radius: 20px;
+  }
+  .stat { padding: 12px 14px; display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+  .stat + .stat { border-left: 1px solid rgba(255,255,255,.14); }
+  .stat b { font-family: "Sora", system-ui, sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
+  .stat span { font-size: 0.8rem; font-weight: 600; opacity: .85; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .btn-quiz {
+    margin-top: 16px; width: 100%; border: 0; border-radius: 16px; padding: 15px 22px;
+    font-weight: 800; font-size: 1.02rem; background: #fff; color: #4A3BC4;
+    box-shadow: 0 10px 24px -12px rgba(0,0,0,.45); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-quiz:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -12px rgba(0,0,0,.5); }
+
+  /* ---------- botões base ---------- */
+  .btn-add {
+    background: var(--brand); color: var(--on-brand); border: 0; border-radius: var(--r-sm);
+    padding: 0 22px; font-weight: 800; transition: filter .15s;
+  }
+  .btn-add:hover { filter: brightness(1.07); }
+  .btn-add:disabled { opacity: .5; cursor: default; filter: none; }
+  .tool {
+    background: transparent; color: var(--text); border: 0; border-radius: 999px;
+    padding: 8px 14px; font-size: 0.86rem; font-weight: 700; white-space: nowrap;
+    transition: background .15s;
+  }
+  .tool:hover { background: var(--surface-2); }
+  .tool:disabled { opacity: .5; }
+  .tool.danger { color: var(--bad); }
+  .tool.danger.confirming { background: var(--bad); color: #fff; }
+
+  /* ---------- adicionar ---------- */
+  form.add {
+    display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 8px;
+    background: var(--surface); border-radius: var(--r-lg); padding: 10px; box-shadow: var(--shadow);
+  }
+  form.add input {
+    font: inherit; color: var(--text); background: var(--surface-2); height: 50px;
+    border: 1.5px solid transparent; border-radius: var(--r-md); padding: 0 16px; min-width: 0;
+    transition: border-color .15s, background .15s;
+  }
+  form.add #inEn { font-weight: 700; }
+  form.add input::placeholder, .quiz-form input::placeholder, .split-row input::placeholder { color: var(--muted); font-weight: 500; }
+  form.add input:focus { outline: none; border-color: var(--brand); background: var(--surface); }
+  form.add #inEn, form.add #inPt { grid-column: 1 / -1; }
+  form.add .btn-add { height: 50px; border-radius: var(--r-md); }
+  @media (max-width: 720px) {
+    form.add { grid-template-columns: 1fr 1fr; }
+    form.add .btn-add { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) { form.add { grid-template-columns: 1fr; } }
+
+  /* ---------- colar lista ---------- */
+  .paste-wrap { margin-top: -6px; }
+  .paste-toggle {
+    background: transparent; border: 0; color: var(--brand-ink); font-weight: 800; font-size: 0.9rem;
+    padding: 6px 10px; border-radius: 999px; margin-left: 4px;
+  }
+  .paste-toggle:hover { background: var(--brand-soft); }
+  .paste {
+    margin-top: 8px; background: var(--surface); border-radius: var(--r-lg); padding: 16px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .paste-help { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .paste textarea, .paste input {
+    font: inherit; color: var(--text); background: var(--surface-2); width: 100%;
+    border: 1.5px solid transparent; border-radius: var(--r-md); padding: 12px 14px; resize: vertical;
+  }
+  .paste textarea { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.88rem; line-height: 1.5; min-height: 140px; }
+  .paste textarea:focus, .paste input:focus { outline: none; border-color: var(--brand); background: var(--surface); }
+  .paste-preview:empty { display: none; }
+  .paste-sum { margin: 0 0 8px; font-weight: 700; font-size: 0.9rem; }
+  .paste-list {
+    list-style: none; margin: 0; padding: 0; max-height: 280px; overflow: auto;
+    border: 1px solid var(--line); border-radius: var(--r-md);
+  }
+  .paste-list li { display: flex; gap: 10px; align-items: baseline; padding: 8px 12px; font-size: 0.92rem; }
+  .paste-list li + li { border-top: 1px solid var(--line); }
+  .paste-list .n { color: var(--muted); font-size: 0.75rem; font-weight: 700; min-width: 1.6em; }
+  .paste-list .e { font-weight: 700; }
+  .paste-list .arrow { color: var(--muted); }
+  .paste-list .tag { margin-left: auto; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+  .paste-list li.skip { opacity: .55; }
+  .paste-list .tag.merge { background: var(--audio-bg); color: var(--audio-ink); }
+
+  /* ---------- backup ---------- */
+  .backup {
+    background: var(--gold-bg); color: var(--gold-ink); border-radius: var(--r-lg); padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .backup p { margin: 0; flex: 1 1 260px; font-size: 0.93rem; font-weight: 600; }
+  .backup .row { display: flex; gap: 8px; }
+  .backup .btn-add { padding: 10px 16px; }
+  .backup .tool { color: var(--gold-ink); }
+  .backup .tool:hover { background: rgba(0,0,0,.06); }
+
+  /* ---------- barra de ferramentas ---------- */
+  .bar {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px;
+  }
+  .bar::-webkit-scrollbar { display: none; }
+  .tools {
+    display: inline-flex; flex: 0 0 auto; background: var(--surface); border-radius: 999px; padding: 4px; gap: 2px;
+    box-shadow: var(--shadow);
+  }
+  .tools + .tools { margin-left: 0; }
+
+  /* ---------- grupos por dia ---------- */
+  .groups { display: flex; flex-direction: column; gap: 28px; }
+  .day-head {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    margin: 0 4px 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+  .day-title { display: flex; flex-direction: column; min-width: 0; flex: 1 1 240px; }
+  .day-date { font-size: 0.78rem; font-weight: 700; color: var(--muted); letter-spacing: .01em; }
+  .day-name {
+    font-family: "Sora", system-ui, sans-serif; font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+    color: var(--text); background: transparent; border: 0; border-radius: 8px;
+    padding: 2px 6px; margin: 2px 0 0 -6px; width: 100%; min-width: 0; transition: background .15s;
+  }
+  .day-name::placeholder { color: var(--muted); opacity: .6; font-weight: 600; }
+  .day-name:hover { background: var(--surface-2); }
+  .day-name:focus { outline: none; background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--brand); }
+  .day-side { display: flex; align-items: center; gap: 8px; }
+  .day-count { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+  .day-study {
+    border: 0; border-radius: 999px; padding: 8px 16px; font-weight: 800; font-size: 0.85rem;
+    background: var(--brand-soft); color: var(--brand-ink); transition: background .15s, color .15s;
+  }
+  .day-study:hover { background: var(--brand); color: var(--on-brand); }
+  .day-study:disabled { opacity: .45; cursor: default; background: var(--brand-soft); color: var(--brand-ink); }
+
+  /* ---------- cartões ---------- */
+  ul.words { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); align-items: start; }
+  li.word {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--surface); border-radius: 20px; box-shadow: var(--shadow);
+    border: 1.5px solid transparent; transition: border-color .15s, box-shadow .15s;
+  }
+  li.word:hover { box-shadow: var(--shadow-lg); }
+  li.word.fluent { border-color: var(--gold-line); }
+  li.word.splitting, li.word.editing { grid-column: 1 / -1; }
+  .flip {
+    text-align: left; background: transparent; border: 0; color: var(--text); min-width: 0;
+    padding: 2px 18px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%;
+    border-radius: 20px;
+  }
+  .en {
+    font-family: "Sora", system-ui, sans-serif; font-weight: 600;
+    font-size: 1.08rem; line-height: 1.35; letter-spacing: -0.005em; word-break: break-word;
+    padding-right: 0; display: block;
+  }
+  li.word.phrase .en { padding-right: 204px; }
+  li.word.no-mic .en { padding-right: 0; }
+  li.word.phrase.no-mic .en { padding-right: 168px; }
+  .mic-btn {
+    width: 32px; height: 32px; border: 0; border-radius: 10px; display: grid; place-items: center;
+    background: var(--audio-bg); color: var(--audio-ink); transition: filter .15s;
+  }
+  .mic-btn:hover { filter: brightness(.95); }
+  .mic-btn svg { width: 16px; height: 16px; }
+
+  /* ---------- falar ---------- */
+  .talk {
+    position: fixed; inset: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: center;
+    background: rgba(15,15,26,.45); padding: 16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    animation: fade .2s ease-out;
+  }
+  @media (min-width: 600px) { .talk { align-items: center; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .talk-card {
+    position: relative; width: 100%; max-width: 440px; background: var(--surface); border-radius: 28px;
+    padding: 26px 22px 24px; text-align: center; box-shadow: var(--shadow-lg); animation: pop-in .25s ease-out;
+    max-height: calc(100% - 20px); overflow: auto;
+  }
+  .talk-close {
+    position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border: 0; border-radius: 10px;
+    background: var(--surface-2); color: var(--muted); font-size: 1.2rem; line-height: 1;
+  }
+  .talk-label { margin: 0; color: var(--muted); font-weight: 700; font-size: 0.85rem; }
+  .talk-word {
+    font-family: "Sora", system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em;
+    font-size: clamp(1.7rem, 7vw, 2.3rem); line-height: 1.15; margin: 6px 0 4px; color: var(--brand); word-break: break-word;
+  }
+  .talk-pt { margin: 0; color: var(--muted); font-weight: 600; }
+  .talk-pr { margin: 2px 0 0; color: var(--muted); font-size: 0.88rem; font-weight: 700; }
+  .talk-row { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+  .talk-row .tool { background: var(--surface-2); }
+  .mic-big {
+    margin: 22px auto 10px; width: 92px; height: 92px; border-radius: 50%; border: 0; display: grid; place-items: center;
+    background: var(--audio-ink); color: #fff; box-shadow: 0 0 0 10px var(--audio-bg);
+    transition: transform .12s ease;
+  }
+  .mic-big svg { width: 38px; height: 38px; }
+  .mic-big:hover { transform: scale(1.04); }
+  .mic-big.listening {
+    background: var(--bad);
+    box-shadow: 0 0 0 calc(8px + var(--lvl, 0) * 26px) color-mix(in srgb, var(--bad) 22%, transparent);
+    transition: box-shadow .08s linear;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--bad) 22%, transparent); } 50% { box-shadow: 0 0 0 18px color-mix(in srgb, var(--bad) 8%, transparent); } }
+  .talk-hint { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+  .talk-result { margin-top: 16px; padding: 16px; border-radius: 20px; background: var(--surface-2); }
+  .talk-result[hidden] { display: none; }
+  .talk-score { font-family: "Sora", system-ui, sans-serif; font-weight: 700; font-size: 2.2rem; line-height: 1; }
+  .talk-verdict { margin: 6px 0 10px; font-weight: 800; }
+  .talk-result.good .talk-score, .talk-result.good .talk-verdict { color: var(--ok); }
+  .talk-result.mid .talk-score, .talk-result.mid .talk-verdict { color: var(--warn); }
+  .talk-result.low .talk-score, .talk-result.low .talk-verdict { color: var(--bad); }
+  .talk-heard { margin: 0; font-size: 0.92rem; color: var(--muted); }
+  .talk-heard b { color: var(--text); }
+  .talk-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 10px; }
+  .talk-words span { font-weight: 700; font-size: 0.9rem; padding: 3px 10px; border-radius: 999px; }
+  .talk-words .hit { background: var(--reveal-bg); color: var(--reveal-ink); }
+  .talk-words .miss { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+  .talk-note { margin: 14px 0 0; font-size: 0.78rem; color: var(--muted); }
+  .pr { font-size: 0.85rem; color: var(--muted); font-weight: 700; margin-top: -4px; word-break: break-word; }
+  .pr::before { content: "fala-se "; font-weight: 500; opacity: .8; }
+  .pt {
+    font-weight: 700; font-size: 0.96rem; padding: 4px 10px; border-radius: 10px;
+    background: var(--reveal-bg); color: var(--reveal-ink); word-break: break-word;
+    transition: filter .25s ease, opacity .25s ease;
+  }
+  .pt.hidden { background: var(--surface-2); color: var(--muted); filter: blur(5px); opacity: .85; user-select: none; }
+  .flip:hover .pt.hidden { opacity: 1; }
+  .pt.show { animation: pop-in .25s ease-out; }
+  .ctx { font-size: 0.86rem; color: var(--muted); font-style: italic; word-break: break-word; line-height: 1.4; }
+  .ctx { font-style: normal; }
+  .ctx::before { content: "Nota: "; font-weight: 700; }
+  .meta {
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 6px; padding-top: 10px;
+    border-top: 1px dashed var(--line); align-self: stretch;
+  }
+  .due, .streak, .mode-chip, .fluent-badge {
+    font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; line-height: 1.4;
+    background: var(--surface-2); color: var(--muted);
+  }
+  .due.today { background: var(--brand-soft); color: var(--brand-ink); }
+  .mode-chip { background: var(--audio-bg); color: var(--audio-ink); }
+  .fluent-badge { background: var(--gold-bg); color: var(--gold-ink); font-weight: 800; }
+
+  .actions { order: -1; align-self: flex-end; display: flex; align-items: center; gap: 0; padding: 10px 10px 0; }
+  .actions .speak { margin-right: 2px; }
+  .speak, .edit-btn, .del, .split-btn {
+    height: 32px; border: 0; border-radius: 10px; background: transparent; color: var(--muted);
+    display: grid; place-items: center; transition: background .15s, color .15s;
+  }
+  .speak, .edit-btn, .del { width: 32px; }
+  .speak { color: var(--brand); background: var(--brand-soft); margin-right: 2px; }
+  .speak:hover { background: var(--brand); color: var(--on-brand); }
+  .speak svg { width: 17px; height: 17px; }
+  .edit-btn svg { width: 16px; height: 16px; }
+  .edit-btn:hover { background: var(--surface-2); color: var(--text); }
+  .del { font-size: 1.2rem; line-height: 1; }
+  .del:hover { background: color-mix(in srgb, var(--bad) 12%, transparent); color: var(--bad); }
+  .del.confirming { width: auto; padding: 0 10px; font-size: 0.78rem; font-weight: 800; color: #fff; background: var(--bad); }
+  .split-btn { padding: 0 10px; font-size: 0.76rem; font-weight: 800; color: var(--brand-ink); }
+  .split-btn:hover { background: var(--brand-soft); }
+
+  .split-panel, .edit-panel {
+    margin: 0 10px 10px; padding: 16px; border-radius: var(--r-md); background: var(--surface-2);
+  }
+  .split-panel p { margin: 0 0 10px; color: var(--muted); font-size: 0.9rem; }
+  .split-row { display: grid; grid-template-columns: minmax(70px, 1fr) 2fr; gap: 10px; align-items: center; margin-bottom: 6px; }
+  .split-row .w { font-family: "Sora", system-ui, sans-serif; font-weight: 600; word-break: break-word; }
+  .split-row input, .edit-grid input {
+    font: inherit; font-size: 1rem; font-weight: 500; color: var(--text); background: var(--surface); min-width: 0;
+    border: 1.5px solid var(--line); border-radius: var(--r-sm); padding: 9px 12px;
+  }
+  .split-row input:focus, .edit-grid input:focus { outline: none; border-color: var(--brand); }
+  .split-row .have { color: var(--muted); font-size: 0.85rem; }
+  .split-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .split-actions .btn-add { padding: 10px 18px; }
+  .split-actions .tool { background: var(--surface); }
+  .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .edit-grid label:nth-child(-n+2) { grid-column: 1 / -1; }
+  .edit-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+  @media (max-width: 560px) { .edit-grid { grid-template-columns: 1fr; } }
+  .edit-msg { margin: 10px 0 0; color: var(--bad); font-size: 0.88rem; min-height: 1.2em; }
+
+  .empty {
+    border: 2px dashed var(--line); border-radius: var(--r-lg); padding: 40px 20px; margin: 0;
+    text-align: center; color: var(--muted);
+  }
+  .groups.shuffled li.word { animation: pop-in .3s ease-out; }
+  @keyframes pop-in { from { transform: scale(.96); opacity: .4; } to { transform: none; opacity: 1; } }
+
+  /* ---------- treino ---------- */
+  .quiz {
+    background: var(--surface); border-radius: 28px; padding: 22px 22px 26px;
+    box-shadow: var(--shadow-lg); text-align: center;
+  }
+  .quiz-top { display: flex; justify-content: space-between; gap: 8px; }
+  .quiz-top span {
+    font-size: 0.8rem; font-weight: 700; color: var(--muted);
+    background: var(--surface-2); padding: 6px 12px; border-radius: 999px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%;
+  }
+  .quiz-top span:empty { visibility: hidden; }
+  .quiz-q { margin: 30px 0 6px; color: var(--muted); font-weight: 600; }
+  .quiz-word {
+    font-family: "Sora", system-ui, sans-serif; font-weight: 700; letter-spacing: -0.03em;
+    font-size: clamp(2.1rem, 9vw, 3.2rem); line-height: 1.1; margin: 0 0 26px; word-break: break-word;
+    color: var(--brand);
+  }
+  .quiz-audio { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 16px 0 26px; }
+  .play-big {
+    width: 100px; height: 100px; border-radius: 50%; border: 0; display: grid; place-items: center;
+    background: var(--brand); color: var(--on-brand);
+    box-shadow: 0 0 0 10px var(--brand-soft), 0 16px 32px -14px var(--brand);
+    transition: transform .12s ease;
+  }
+  .play-big:hover { transform: scale(1.04); }
+  .play-big:active { transform: scale(.96); }
+  .play-big svg { width: 44px; height: 44px; }
+  .quiz-audio .slow { background: var(--surface-2); margin-top: 8px; }
+  .quiz-form { display: flex; flex-direction: column; gap: 8px; max-width: 560px; margin: 0 auto; }
+  .quiz-form .btn-add { height: 50px; flex: none; }
+  .quiz-form input { flex: none !important; }
+  .quiz-form input {
+    flex: 1; min-width: 0; font: inherit; font-size: 1.05rem; font-weight: 600; text-align: center; color: var(--text);
+    background: var(--surface-2); border: 2px solid transparent; border-radius: var(--r-md); padding: 0 14px; height: 54px;
+  }
+  .quiz-form input:focus { outline: none; border-color: var(--brand); background: var(--surface); }
+  .quiz-form .btn-add { padding: 0 20px; border-radius: var(--r-md); }
+  .quiz-result { min-height: 1.6em; margin: 18px 0 8px; font-weight: 800; font-size: 1.05rem; }
+  .quiz-result.ok { color: var(--ok); }
+  .quiz-result.bad { color: var(--bad); }
+  .quiz-result.almost { color: var(--warn); }
+  .quiz-result.ok, .quiz-result.bad, .quiz-result.almost { animation: pop-in .25s ease-out; }
+  .quiz-diff { margin: -2px auto 14px; max-width: 560px; }
+  .quiz-word.long { font-size: clamp(1.35rem, 5vw, 1.9rem); letter-spacing: -0.015em; line-height: 1.25; }
+  .quiz-pr { margin: 0 0 10px; color: var(--muted); font-weight: 700; min-height: 1.4em; }
+  .quiz-ctx { margin: 0 auto 14px; color: var(--muted); max-width: 46ch; font-size: 0.92rem; }
+  .quiz-fluent {
+    display: inline-block; margin: 0 0 16px; font-weight: 800; font-size: 0.92rem;
+    color: var(--gold-ink); background: var(--gold-bg);
+    padding: 8px 16px; border-radius: 999px; animation: pop-in .3s ease-out;
+  }
+  .quiz-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+  .quiz-actions .tool { background: var(--surface-2); padding: 11px 18px; }
+  .quiz-actions .btn-add { padding: 11px 24px; border-radius: 999px; }
+
+  /* ---------- aviso ---------- */
+  .status {
+    position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+    background: var(--text); color: var(--bg); font-weight: 700; font-size: 0.9rem;
+    padding: 11px 18px; border-radius: 999px; max-width: calc(100% - 32px); text-align: center;
+    transition: opacity .2s, transform .2s; margin: 0; z-index: 10; box-shadow: var(--shadow-lg);
+  }
+  .status.visible { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 560px) {
+    main { padding: 16px 12px 104px; gap: 14px; }
+    .hero { padding: 24px 18px 18px; border-radius: 24px; }
+    .day-streak { max-width: none; }
+    .stats { margin-top: 18px; }
+    .stat { padding: 10px 10px; }
+    .stat b { font-size: 1.3rem; }
+    .stat span { font-size: 0.72rem; }
+    .stat .dot { display: none; }
+    .bar { flex-wrap: wrap; overflow: visible; margin: 2px 0 0; padding: 0; }
+    .tools { display: flex; width: 100%; }
+    .tools { flex-wrap: wrap; }
+    .tools .tool { flex: 1 1 0; padding: 9px 4px; font-size: 0.78rem; }
+    .tools + .tools { margin-left: 0; }
+    ul.words { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="hero-head">
+      <div>
+        <h1>Minhas frases</h1>
+        <p class="sub">Toque na frase em inglês para revelar a tradução.</p>
+      </div>
+      <span class="day-streak" id="dayStreak" hidden></span>
+    </div>
+      <div class="stats">
+        <div class="stat"><b id="count">0</b><span>frases</span></div>
+        <div class="stat"><b id="statRight">0</b><span><i class="dot" style="background:#5BE3A2"></i>acertos</span></div>
+        <div class="stat"><b id="statWrong">0</b><span><i class="dot" style="background:#FF8A9A"></i>erros</span></div>
+        <div class="stat"><b id="statFluent">0</b><span><i class="dot" style="background:#FFE08A"></i>fluentes</span></div>
+      </div>
+      <button class="btn-quiz" id="btnQuiz" type="button">Me pergunte as frases</button>
+  </header>
+
+  <form class="add" id="addForm" autocomplete="off">
+    <input id="inEn" placeholder="Frase em inglês" aria-label="Frase em inglês" required>
+    <input id="inPt" placeholder="Tradução em português" aria-label="Tradução em português">
+    <input id="inPr" placeholder="Pronúncia (opcional)" aria-label="Como se pronuncia, escrito em português">
+    <input id="inCtx" placeholder="Nota (opcional): quem falou, cena" aria-label="Nota sobre a frase">
+    <button class="btn-add" type="submit">Adicionar</button>
+  </form>
+
+  <div class="paste-wrap" id="pasteWrap">
+    <button class="paste-toggle" id="pasteToggle" type="button">Colar várias de uma vez</button>
+    <section class="paste" id="pastePanel" hidden>
+      <p class="paste-help">Cole a lista com uma frase por linha, no formato <b>inglês = português</b>. Linhas sem "=" (como textos de explicação) são ignoradas, e a ordem é mantida.</p>
+      <textarea id="pasteText" rows="7" spellcheck="false" placeholder="What you guys don't understand = O que vocês não entendem&#10;Everything you need to know = Tudo o que vocês precisam saber"></textarea>
+      <input id="pasteDay" placeholder="Nome do dia (opcional), ex: Episódio 02" maxlength="60">
+      <div class="paste-preview" id="pastePreview"></div>
+      <div class="split-actions">
+        <button class="btn-add" id="pasteAdd" type="button" disabled>Adicionar</button>
+        <button class="tool" id="pasteCancel" type="button">Cancelar</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="backup" id="backup" hidden>
+    <p id="backupText"></p>
+    <div class="row">
+      <button class="btn-add" id="backupNow" type="button">Exportar agora</button>
+      <button class="tool" id="backupLater" type="button">Depois</button>
+    </div>
+  </div>
+
+  <section class="quiz" id="quiz" hidden aria-live="polite">
+    <div class="quiz-top">
+      <span id="quizProgress"></span>
+      <span id="quizScore"></span>
+    </div>
+    <p class="quiz-q">Como se diz em inglês?</p>
+    <p class="quiz-word" id="quizWord"></p>
+    <div class="quiz-audio" id="quizAudio" hidden>
+      <button type="button" class="play-big" id="quizPlay" aria-label="Ouvir a frase">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      </button>
+      <button type="button" class="tool slow" id="quizSlow">Ouvir devagar</button>
+    </div>
+    <form id="quizForm" class="quiz-form" autocomplete="off">
+      <input id="quizInput" placeholder="Escreva a frase em inglês" aria-label="Sua resposta em inglês" autocapitalize="off" spellcheck="false">
+      <button class="btn-add" id="quizCheck" type="submit">Responder</button>
+    </form>
+    <p class="quiz-result" id="quizResult"></p>
+    <div class="talk-words quiz-diff" id="quizDiff" hidden></div>
+    <p class="quiz-pr" id="quizPr"></p>
+    <p class="quiz-ctx" id="quizCtx" hidden></p>
+    <p class="quiz-fluent" id="quizFluent" hidden></p>
+    <div class="quiz-actions">
+      <button class="tool" id="quizSkip" type="button">Não sei</button>
+      <button class="tool" id="quizListen" type="button" hidden>Ouvir</button>
+      <button class="tool" id="quizTalk" type="button" hidden>Falar</button>
+      <button class="btn-add" id="quizNext" type="button" hidden>Próxima</button>
+      <button class="tool" id="quizExit" type="button">Sair do treino</button>
+    </div>
+  </section>
+
+  <div class="bar" id="bar">
+    <div class="tools">
+      <button class="tool" id="btnShuffle" type="button">Embaralhar</button>
+      <button class="tool" id="btnHide" type="button">Esconder todas</button>
+      <button class="tool" id="btnShow" type="button">Mostrar todas</button>
+      <button class="tool" id="btnPron" type="button" hidden>Gerar pronúncias</button>
+    </div>
+    <div class="tools">
+      <button class="tool" id="btnExport" type="button">Exportar</button>
+      <button class="tool" id="btnImport" type="button">Importar</button>
+      <button class="tool danger" id="btnResetStats" type="button">Zerar placar</button>
+      <button class="tool danger" id="btnClear" type="button">Apagar todas</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </div>
+
+  <div class="groups" id="list"></div>
+  <p class="status" id="status" role="status"></p>
+
+  <div class="talk" id="talk" hidden role="dialog" aria-modal="true" aria-labelledby="talkWord">
+    <div class="talk-card">
+      <button class="talk-close" id="talkClose" type="button" aria-label="Fechar">×</button>
+      <p class="talk-label">Fale em inglês</p>
+      <p class="talk-word" id="talkWord"></p>
+      <p class="talk-pt" id="talkPt"></p>
+      <p class="talk-pr" id="talkPr"></p>
+      <div class="talk-row">
+        <button class="tool" id="talkListen" type="button">Ouvir o certo</button>
+        <button class="tool" id="talkSlow" type="button">Ouvir devagar</button>
+      </div>
+      <button class="mic-big" id="talkMic" type="button" aria-label="Falar no microfone"></button>
+      <p class="talk-hint" id="talkHint">Toque no microfone e fale</p>
+      <div class="talk-result" id="talkResult" hidden>
+        <div class="talk-score" id="talkScore"></div>
+        <p class="talk-verdict" id="talkVerdict"></p>
+        <p class="talk-heard" id="talkHeard"></p>
+        <div class="talk-words" id="talkWords"></div>
+      </div>
+      <p class="talk-note">O reconhecimento de voz do navegador é uma ajuda, não um professor: às vezes ele erra mesmo quando você falou bem.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  const LS_KEY = "minhas-palavras-v1";
+  let words = [];            // {id, en, pt}
+  const open = new Set();    // ids currently revealed
+  let db = null, docRef = null, sampleFn = null;
+  let splitOpen = null;      // id da frase sendo dividida
+
+  const $ = (id) => document.getElementById(id);
+  const listEl = $("list"), countEl = $("count"), statusEl = $("status");
+
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  function render() {
+    listEl.innerHTML = "";
+    countEl.textContent = words.length;
+    countEl.nextElementSibling.textContent = words.length === 1 ? "frase" : "frases";
+    renderStats();
+    const nDue = dueWords().length;
+    $("btnQuiz").textContent = nDue ? "Treinar " + nDue + (nDue === 1 ? " frase de hoje" : " frases de hoje") : "Me pergunte as frases";
+    $("btnClear").hidden = !words.length;
+    $("btnExport").hidden = !words.length;
+    if (!words.length) {
+      const empty = document.createElement("p");
+      empty.className = "empty";
+      empty.textContent = "Nenhuma frase ainda. Escreva uma em inglês acima, ou cole várias de uma vez.";
+      listEl.appendChild(empty);
+      updatePronBtn();
+      return;
+    }
+    // agrupa por dia em que a palavra foi adicionada (mais recente primeiro)
+    const groups = new Map();
+    for (const w of words) {
+      const d = dayOf(w);
+      if (!groups.has(d)) groups.set(d, []);
+      groups.get(d).push(w);
+    }
+    const days = Array.from(groups.keys()).sort((a, b) => (a === "" ? 1 : b === "" ? -1 : b.localeCompare(a)));
+    for (const day of days) {
+    const section = document.createElement("section");
+    section.className = "day";
+    section.appendChild(buildDayHead(day, groups.get(day)));
+    const ul = document.createElement("ul");
+    ul.className = "words";
+    section.appendChild(ul);
+    listEl.appendChild(section);
+    for (const w of groups.get(day)) {
+      const li = document.createElement("li");
+      li.className = "word";
+
+      const flip = document.createElement("button");
+      flip.type = "button";
+      flip.className = "flip";
+      flip.setAttribute("aria-expanded", open.has(w.id) ? "true" : "false");
+
+      const en = document.createElement("span");
+      en.className = "en";
+      en.textContent = w.en;
+
+      const pt = document.createElement("span");
+      const isOpen = open.has(w.id);
+      pt.className = "pt" + (isOpen ? "" : " hidden");
+      pt.textContent = w.pt;
+      pt.setAttribute("aria-hidden", isOpen ? "false" : "true");
+
+      flip.append(en);
+      if (w.pr) {
+        const pr = document.createElement("span");
+        pr.className = "pr";
+        pr.textContent = w.pr;
+        flip.append(pr);
+      }
+      flip.append(pt);
+      if (w.ctx && norm(w.ctx) !== norm(w.en)) {
+        const cx = document.createElement("span");
+        cx.className = "ctx";
+        cx.textContent = w.ctx;
+        flip.append(cx);
+      }
+      if (quizable(w)) {
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        if (isFluent(w)) {
+          const fb = document.createElement("span");
+          fb.className = "fluent-badge";
+          fb.textContent = "Fluente";
+          meta.append(fb);
+          li.classList.add("fluent");
+        }
+        const dd = document.createElement("span");
+        const n = daysUntil(w.due);
+        dd.className = "due" + (n <= 0 ? " today" : "");
+        dd.textContent = n <= 0 ? "Treino de hoje" : "Volta " + whenText(n);
+        meta.append(dd);
+        if (audioMode(w)) {
+          const mc = document.createElement("span");
+          mc.className = "mode-chip";
+          mc.textContent = "Modo áudio";
+          meta.append(mc);
+        }
+        if (w.dstreak && !isFluent(w)) {
+          const st = document.createElement("span");
+          st.className = "streak";
+          st.textContent = w.dstreak + " de " + FLUENT_AT + " para fluente";
+          meta.append(st);
+        }
+        flip.append(meta);
+      }
+      flip.addEventListener("click", () => {
+        if (open.has(w.id)) {
+          open.delete(w.id);
+          pt.className = "pt hidden";
+          pt.setAttribute("aria-hidden", "true");
+          flip.setAttribute("aria-expanded", "false");
+        } else {
+          open.add(w.id);
+          pt.className = "pt show";
+          pt.setAttribute("aria-hidden", "false");
+          flip.setAttribute("aria-expanded", "true");
+        }
+      });
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "del";
+      del.setAttribute("aria-label", "Apagar " + w.en);
+      del.textContent = "×";
+      let confirmTimer = null;
+      del.addEventListener("click", () => {
+        if (!del.classList.contains("confirming")) {
+          del.classList.add("confirming");
+          del.textContent = "Apagar?";
+          confirmTimer = setTimeout(() => { del.classList.remove("confirming"); del.textContent = "×"; }, 3000);
+          return;
+        }
+        clearTimeout(confirmTimer);
+        words = words.filter(x => x.id !== w.id);
+        open.delete(w.id);
+        render(); save();
+      });
+
+      const speakBtn = makeSpeakBtn(w.en);
+      if (!canListen) li.classList.add("no-mic");
+      const editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "edit-btn";
+      editBtn.innerHTML = EDIT_ICON;
+      editBtn.setAttribute("aria-label", "Editar " + w.en);
+      editBtn.addEventListener("click", () => {
+        editOpen = editOpen === w.id ? null : w.id;
+        splitOpen = null;
+        render();
+      });
+      const isPhrase = false; // modo frases: sem dividir em palavras
+      if (isPhrase) {
+        li.classList.add("phrase");
+        const sb = document.createElement("button");
+        sb.type = "button";
+        sb.className = "split-btn";
+        sb.textContent = splitOpen === w.id ? "Fechar" : "Dividir";
+        sb.setAttribute("aria-label", "Dividir a frase " + w.en + " em palavras");
+        sb.addEventListener("click", () => {
+          editOpen = null;
+          splitOpen = splitOpen === w.id ? null : w.id;
+          render();
+        });
+        li.append(flip, actionsBox(speakBtn, makeMicBtn(w), sb, editBtn, del));
+        if (splitOpen === w.id) { li.classList.add("splitting"); li.appendChild(buildSplitPanel(w)); }
+      } else {
+        li.append(flip, actionsBox(speakBtn, makeMicBtn(w), editBtn, del));
+      }
+      if (editOpen === w.id) { li.classList.add("editing"); li.appendChild(buildEditPanel(w)); }
+      ul.appendChild(li);
+    }
+    }
+    updatePronBtn();
+  }
+
+  // ---- dias ----
+  const LS_DAYS = "minhas-palavras-dias-v1";
+  let dayNames = {};
+  try {
+    const dn = JSON.parse(localStorage.getItem(LS_DAYS) || "null");
+    if (dn && typeof dn === "object") dayNames = dn;
+  } catch (e) {}
+
+  function dayOf(w) {
+    if (w.added && /^\d{4}-\d{2}-\d{2}$/.test(w.added)) return w.added;
+    // palavras antigas: a data está guardada no começo do id
+    const ms = parseInt(String(w.id || "").slice(0, -5), 36);
+    if (ms > 1.5e12 && ms < 4e12) {
+      const d = new Date(ms);
+      return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+    }
+    return "";
+  }
+  function dayLabel(day) {
+    if (!day) return "Sem data";
+    const n = daysUntil(day);
+    const [y, m, d] = day.split("-").map(Number);
+    const dt = new Date(y, m - 1, d, 12);
+    const opts = { weekday: "long", day: "numeric", month: "long" };
+    if (y !== new Date().getFullYear()) opts.year = "numeric";
+    let txt = dt.toLocaleDateString("pt-BR", opts);
+    txt = txt.charAt(0).toUpperCase() + txt.slice(1);
+    if (n === 0) return "Hoje, " + txt.replace(/^[^,]*, /, "");
+    if (n === -1) return "Ontem, " + txt.replace(/^[^,]*, /, "");
+    return txt;
+  }
+  let dayNameTimer = null;
+  function buildDayHead(day, list) {
+    const count = list.length;
+    const head = document.createElement("div");
+    head.className = "day-head";
+    const title = document.createElement("div");
+    title.className = "day-title";
+    const date = document.createElement("span");
+    date.className = "day-date";
+    date.textContent = dayLabel(day);
+    const name = document.createElement("input");
+    name.className = "day-name";
+    name.value = dayNames[day || "sem-data"] || "";
+    name.placeholder = "Dar um nome para este dia";
+    name.setAttribute("aria-label", "Nome do dia " + dayLabel(day));
+    name.maxLength = 60;
+    name.addEventListener("input", () => {
+      const v = name.value.trim();
+      if (v) dayNames[day || "sem-data"] = v; else delete dayNames[day || "sem-data"];
+      clearTimeout(dayNameTimer);
+      dayNameTimer = setTimeout(save, 600);
+    });
+    name.addEventListener("keydown", (e) => { if (e.key === "Enter") name.blur(); });
+    title.append(date, name);
+    const c = document.createElement("span");
+    c.className = "day-count";
+    c.textContent = count === 1 ? "1 frase" : count + " frases";
+    const study = document.createElement("button");
+    study.type = "button";
+    study.className = "day-study";
+    study.textContent = "Estudar";
+    const nq = list.filter(quizable).length;
+    study.disabled = !nq;
+    study.title = nq ? "Treinar só as frases deste dia" : "Este dia só tem frases longas";
+    study.addEventListener("click", () => {
+      const label = (dayNames[day || "sem-data"] || "").trim() || dayLabel(day);
+      startQuiz(true, list, label);
+    });
+    const side = document.createElement("div");
+    side.className = "day-side";
+    side.append(c, study);
+    head.append(title, side);
+    return head;
+  }
+
+  // ---- storage ----
+  // acertos e erros no geral (todas as respostas de treino)
+  const LS_STATS = "minhas-palavras-stats-v1";
+  let stats = { right: 0, wrong: 0, days: 0, last: "", backup: "" };
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_STATS) || "null");
+    if (s && typeof s === "object") stats = {
+      right: Number(s.right) || 0, wrong: Number(s.wrong) || 0,
+      days: Number(s.days) || 0, last: typeof s.last === "string" ? s.last : "",
+      backup: typeof s.backup === "string" ? s.backup : "",
+      resetAt: Number(s.resetAt) || 0
+    };
+  } catch (e) {}
+
+  // dias seguidos estudando
+  function markStudied() {
+    const t = todayStr();
+    if (stats.last === t) return;
+    stats.days = stats.last === todayStr(-1) ? (stats.days || 0) + 1 : 1;
+    stats.last = t;
+    renderStats();
+    save();
+  }
+  function renderDayStreak() {
+    const el = $("dayStreak");
+    const t = todayStr(), y = todayStr(-1);
+    if (stats.last === t && stats.days) {
+      el.textContent = stats.days === 1 ? "1 dia estudando. Volte amanhã para continuar!" : stats.days + " dias seguidos estudando";
+      el.hidden = false;
+    } else if (stats.last === y && stats.days) {
+      el.textContent = (stats.days === 1 ? "1 dia seguido" : stats.days + " dias seguidos") + ". Treine hoje para não perder!";
+      el.hidden = false;
+    } else {
+      el.hidden = true;
+    }
+  }
+
+  // lembrete de backup (só quando as palavras ficam guardadas apenas neste navegador)
+  let connectDone = false, backupDismissed = false;
+  function updateBackup() {
+    const box = $("backup");
+    if (!box) return;
+    const since = stats.backup ? -daysUntil(stats.backup) : null;
+    const show = connectDone && !docRef && !backupDismissed && words.length >= 5 && (since === null || since >= 7);
+    box.hidden = !show;
+    if (show) {
+      $("backupText").textContent = since === null
+        ? "Suas frases estão guardadas só neste navegador. Exporte uma cópia para não correr o risco de perder."
+        : "Faz " + since + " dias que você não exporta uma cópia das suas frases. Que tal salvar agora?";
+    }
+  }
+  function renderStats() {
+    renderDayStreak();
+    updateBackup();
+    $("statRight").textContent = stats.right;
+    $("statWrong").textContent = stats.wrong;
+    $("statRight").nextElementSibling.lastChild.textContent = stats.right === 1 ? "acerto" : "acertos";
+    $("statWrong").nextElementSibling.lastChild.textContent = stats.wrong === 1 ? "erro" : "erros";
+    const nf = words.filter(isFluent).length;
+    $("statFluent").textContent = nf;
+    $("statFluent").nextElementSibling.lastChild.textContent = nf === 1 ? "fluente" : "fluentes";
+  }
+
+  function saveLocal() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(words)); } catch (e) {}
+    try { localStorage.setItem(LS_STATS, JSON.stringify(stats)); } catch (e) {}
+    try { localStorage.setItem(LS_DAYS, JSON.stringify(dayNames)); } catch (e) {}
+  }
+  function loadLocal() {
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+
+  let saveTimer = null;
+  function save() {
+    saveLocal();
+    if (!docRef) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        await docRef.set({ list: words, stats, dayNames });
+      } catch (e) {
+        statusEl.textContent = "Não foi possível salvar na conta agora; ficou salvo neste navegador.";
+      }
+    }, 400);
+  }
+
+  // ---- add ----
+  const PRON_RULES =
+    "Pronúncia: escreva como se pronuncia no inglês americano usando a escrita do português do Brasil, " +
+    "para um brasileiro ler em voz alta e soar parecido. Separe as sílabas com hífen e escreva a sílaba mais forte em MAIÚSCULAS. " +
+    "Não use símbolos fonéticos. Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu.";
+
+  let adding = false;
+  $("addForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (adding) return;
+    const en = $("inEn").value.trim();
+    const pt = $("inPt").value.trim();
+    const pr = $("inPr").value.trim();
+    if (!en) { $("inEn").focus(); return; }
+    if (!pt && !sampleFn) {
+      statusEl.textContent = "Escreva a tradução em português.";
+      $("inPt").focus();
+      return;
+    }
+    if (alreadyHave(en)) {
+      statusEl.textContent = "\"" + en + "\" já está na sua lista.";
+      $("inEn").select();
+      return;
+    }
+    const phrase = false; // modo frases: não divide em palavras
+    if (sampleFn && (!pt || !pr || phrase)) {
+      await smartAdd(en, pt, pr, phrase);
+      return;
+    }
+    const item = { id: uid(), added: todayStr(), en, pt };
+    if (pr) item.pr = pr;
+    const ctxIn = $("inCtx").value.trim();
+    if (ctxIn) item.ctx = ctxIn;
+    words.unshift(item);
+    $("inEn").value = ""; $("inPt").value = ""; $("inPr").value = ""; $("inCtx").value = "";
+    $("inEn").focus();
+    render(); save();
+    if (!pr) fillPronunciations([item]);
+  });
+
+  // traduz, gera pronúncia e divide frases automaticamente (versão online)
+  async function smartAdd(en, pt, pr, phrase) {
+    adding = true;
+    const btn = $("addForm").querySelector(".btn-add");
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = pt ? "Adicionando…" : "Traduzindo…";
+    try {
+      const prompt =
+        "Você ajuda um brasileiro a estudar inglês.\n" +
+        "Texto em inglês: " + JSON.stringify(en) + "\n" +
+        (pt ? "Tradução escolhida pelo usuário (use exatamente esta): " + JSON.stringify(pt) + "\n" : "") +
+        "1) Traduza o texto para o português do Brasil de forma natural (campo pt).\n" +
+        "2) Escreva a pronúncia do texto inteiro (campo pr).\n" +
+        (phrase
+          ? "3) Divida o texto em palavras: para cada palavra diferente, na ordem em que aparece, dê a palavra como está no texto (em minúsculas, exceto I), a tradução dela com o sentido que tem nesta frase e a pronúncia (campo words).\n"
+          : "3) words deve ser uma lista vazia.\n") +
+        PRON_RULES + "\n" +
+        'Responda somente com JSON neste formato, sem nenhum outro texto: {"pt": "...", "pr": "...", "words": [{"en": "...", "pt": "...", "pr": "..."}]}';
+      const res = await sampleFn.json(prompt, { modelTier: "quick" });
+      const finalPt = pt || (res && typeof res.pt === "string" && res.pt.trim());
+      if (!finalPt) throw new Error("sem tradução");
+      const ctxIn = $("inCtx").value.trim();
+      const main = { id: uid(), added: todayStr(), en, pt: finalPt };
+      if (ctxIn) main.ctx = ctxIn;
+      const mainPr = pr || (res && typeof res.pr === "string" && res.pr.trim());
+      if (mainPr) main.pr = mainPr;
+
+      const extra = [];
+      if (phrase && res && Array.isArray(res.words)) {
+        const seen = new Set();
+        for (const x of res.words) {
+          if (!x || typeof x.en !== "string" || typeof x.pt !== "string") continue;
+          const wEn = x.en.trim(), wPt = x.pt.trim();
+          if (!wEn || !wPt || wEn.includes(" ")) continue;
+          const k = norm(wEn);
+          if (seen.has(k) || alreadyHave(wEn)) continue;
+          seen.add(k);
+          const item = { id: uid(), added: todayStr(), en: wEn, pt: wPt, ctx: ctxIn || en };
+          if (typeof x.pr === "string" && x.pr.trim()) item.pr = x.pr.trim();
+          extra.push(item);
+        }
+      }
+      words = [main].concat(extra, words);
+      $("inEn").value = ""; $("inPt").value = ""; $("inPr").value = ""; $("inCtx").value = "";
+      render(); save();
+      statusEl.textContent = extra.length
+        ? "Frase adicionada e dividida em " + extra.length + (extra.length === 1 ? " palavra nova." : " palavras novas.")
+        : (phrase ? "Frase adicionada. Todas as palavras dela já estavam na lista." : "Frase adicionada.");
+    } catch (err) {
+      if (pt) {
+        // sem a ajuda automática, adiciona do jeito normal
+        const item = { id: uid(), added: todayStr(), en, pt };
+        if (pr) item.pr = pr;
+        words.unshift(item);
+        $("inEn").value = ""; $("inPt").value = ""; $("inPr").value = ""; $("inCtx").value = "";
+        render(); save();
+        statusEl.textContent = "Adicionada, mas não consegui dividir ou gerar a pronúncia agora.";
+      } else {
+        statusEl.textContent = "Não consegui traduzir agora. Escreva a tradução e tente de novo.";
+        $("inPt").focus();
+      }
+    }
+    btn.disabled = false;
+    btn.textContent = label;
+    adding = false;
+    $("inEn").focus();
+  }
+
+  function shuffled(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  $("btnShuffle").addEventListener("click", () => {
+    if (words.length < 2) {
+      statusEl.textContent = "Adicione pelo menos 2 frases para embaralhar.";
+      return;
+    }
+    const before = words.map(w => w.id).join("|");
+    let next = shuffled(words);
+    // garante que a ordem realmente muda
+    let tries = 0;
+    while (next.map(w => w.id).join("|") === before && tries < 20) {
+      next = shuffled(words);
+      tries++;
+    }
+    words = next;
+    open.clear();
+    render();
+    save();
+    listEl.classList.remove("shuffled");
+    void listEl.offsetWidth;
+    listEl.classList.add("shuffled");
+    statusEl.textContent = "Frases embaralhadas.";
+  });
+  // ---- exportar / importar ----
+  let downloadsCap = null;
+  function exportData() {
+    return JSON.stringify({
+      app: "minhas-frases",
+      versao: 1,
+      exportado: new Date().toISOString(),
+      nomesDosDias: dayNames,
+      palavras: words.map(w => {
+        const o = { en: w.en, pt: w.pt, dia: dayOf(w) || undefined };
+        if (w.pr) o.pr = w.pr;
+        if (w.interval) o.intervalo = w.interval;
+        if (w.due) o.proxima = w.due;
+        if (w.streak) o.seguidos = w.streak;
+        if (w.dstreak) o.seguidosNoTreinoDoDia = w.dstreak;
+        if (w.ctx) o.fala = w.ctx;
+        return o;
+      })
+    }, null, 2);
+  }
+  $("btnExport").addEventListener("click", async () => {
+    if (!words.length) return;
+    const data = exportData();
+    const d = new Date();
+    const pad = n => String(n).padStart(2, "0");
+    const filename = "minhas-frases-" + d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + ".json";
+    if (downloadsCap) {
+      try {
+        await downloadsCap.save({ filename, data });
+        statusEl.textContent = "Arquivo exportado."; stats.backup = todayStr(); saveLocal(); updateBackup();
+      } catch (e) {
+        statusEl.textContent = "Exportação cancelada.";
+      }
+      return;
+    }
+    try {
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      statusEl.textContent = "Arquivo exportado."; stats.backup = todayStr(); saveLocal(); updateBackup();
+    } catch (e) {
+      statusEl.textContent = "Não foi possível exportar neste navegador.";
+    }
+  });
+
+  function pickStr(o, keys) {
+    for (const k of keys) if (typeof o[k] === "string" && o[k].trim()) return o[k].trim();
+    return "";
+  }
+  function parseImport(json) {
+    let list = null;
+    if (Array.isArray(json)) list = json;
+    else if (json && typeof json === "object") {
+      list = json.palavras || json.words || json.list || null;
+      if (!Array.isArray(list)) {
+        // formato simples: {"apple": "maçã", ...}
+        const entries = Object.entries(json).filter(([k, v]) => typeof v === "string");
+        list = entries.length ? entries.map(([en, pt]) => ({ en, pt })) : null;
+      }
+    }
+    if (!Array.isArray(list)) return null;
+    const out = [];
+    for (const x of list) {
+      if (!x || typeof x !== "object") continue;
+      const en = pickStr(x, ["en", "english", "ingles", "inglês"]);
+      const pt = pickStr(x, ["pt", "portuguese", "portugues", "português", "traducao", "tradução"]);
+      if (!en || !pt) continue;
+      const item = { id: uid(), added: todayStr(), en, pt };
+      const pr = pickStr(x, ["pr", "pronuncia", "pronúncia", "pronunciation"]);
+      if (pr) item.pr = pr;
+      const fala = pickStr(x, ["fala", "ctx", "contexto", "context"]);
+      if (fala) item.ctx = fala;
+      const iv = Number(x.intervalo || x.interval);
+      if (iv > 0) item.interval = iv;
+      const dia = x.dia || x.added;
+      if (typeof dia === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dia)) item.added = dia;
+      const sq = Number(x.seguidos || x.streak);
+      if (sq > 0) item.streak = Math.floor(sq);
+      const ds = Number(x.seguidosNoTreinoDoDia || x.dstreak);
+      if (ds > 0) item.dstreak = Math.floor(ds);
+      const due = x.proxima || x.due;
+      if (typeof due === "string" && /^\d{4}-\d{2}-\d{2}$/.test(due)) item.due = due;
+      out.push(item);
+    }
+    return out;
+  }
+  $("btnImport").addEventListener("click", () => { $("importFile").value = ""; $("importFile").click(); });
+  $("importFile").addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    let items;
+    try {
+      items = parseImport(JSON.parse(await file.text()));
+    } catch (err) {
+      items = null;
+    }
+    if (!items) { statusEl.textContent = "Esse arquivo não é um JSON válido do sistema."; return; }
+    try {
+      const j = JSON.parse(await file.text());
+      if (j && j.nomesDosDias && typeof j.nomesDosDias === "object") {
+        for (const [k, v] of Object.entries(j.nomesDosDias)) {
+          if (typeof v === "string" && v.trim() && !dayNames[k]) dayNames[k] = v.trim().slice(0, 60);
+        }
+      }
+    } catch (e) {}
+    const key = w => enKey(w.en);
+    const have = new Set(words.map(key));
+    const fresh = [];
+    for (const it of items) {
+      const k = key(it);
+      if (have.has(k)) continue;
+      have.add(k);
+      fresh.push(it);
+    }
+    words = fresh.concat(words);
+    render(); save();
+    const dup = items.length - fresh.length;
+    statusEl.textContent = (fresh.length === 1 ? "1 frase importada" : fresh.length + " frases importadas") +
+      (dup ? " (" + (dup === 1 ? "1 já estava" : dup + " já estavam") + " na lista)." : ".");
+  });
+
+  $("backupNow").addEventListener("click", () => $("btnExport").click());
+  $("backupLater").addEventListener("click", () => { backupDismissed = true; updateBackup(); });
+
+  // zerar acertos e erros (não mexe nas palavras, datas, fluente nem dias seguidos)
+  let resetTimer = null;
+  $("btnResetStats").addEventListener("click", () => {
+    const b = $("btnResetStats");
+    if (!b.classList.contains("confirming")) {
+      b.classList.add("confirming");
+      b.textContent = "Tem certeza?";
+      resetTimer = setTimeout(() => { b.classList.remove("confirming"); b.textContent = "Zerar placar"; }, 4000);
+      return;
+    }
+    clearTimeout(resetTimer);
+    b.classList.remove("confirming");
+    b.textContent = "Zerar placar";
+    stats.right = 0;
+    stats.wrong = 0;
+    stats.resetAt = Date.now();
+    renderStats();
+    save();
+    statusEl.textContent = "Acertos e erros zerados.";
+  });
+
+  let clearTimer = null;
+  $("btnClear").addEventListener("click", () => {
+    const b = $("btnClear");
+    if (!b.classList.contains("confirming")) {
+      b.classList.add("confirming");
+      b.textContent = "Apagar " + words.length + "?";
+      clearTimer = setTimeout(() => { b.classList.remove("confirming"); b.textContent = "Apagar todas"; }, 4000);
+      return;
+    }
+    clearTimeout(clearTimer);
+    b.classList.remove("confirming");
+    b.textContent = "Apagar todas";
+    const n = words.length;
+    words = [];
+    open.clear();
+    splitOpen = null;
+    render(); save();
+    statusEl.textContent = n === 1 ? "1 frase apagada." : n + " frases apagadas.";
+  });
+  $("btnHide").addEventListener("click", () => { open.clear(); render(); });
+  $("btnShow").addEventListener("click", () => { words.forEach(w => open.add(w.id)); render(); });
+
+  // ---- pronúncia e áudio ----
+  const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+  function speak(text, rate) {
+    if (!canSpeak) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(String(text).split(/[\/,;]/)[0].trim());
+      u.lang = "en-US";
+      u.rate = rate || 0.85;
+      const v = window.speechSynthesis.getVoices().find(v => /^en[-_]US/i.test(v.lang)) ||
+                window.speechSynthesis.getVoices().find(v => /^en/i.test(v.lang));
+      if (v) u.voice = v;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  // ---- falar (reconhecimento de voz) ----
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const canListen = !!SR;
+  const MIC_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>';
+  function makeMicBtn(w) {
+    if (!canListen) return document.createTextNode("");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "mic-btn";
+    b.innerHTML = MIC_ICON;
+    b.setAttribute("aria-label", "Treinar a fala de " + w.en);
+    b.addEventListener("click", () => openTalk(w));
+    return b;
+  }
+  let talkWord = null, rec = null, listening = false;
+  function wordsOf(s) {
+    return norm(s).replace(/-/g, " ").split(" ").filter(Boolean);
+  }
+  function similarity(a, b) {
+    a = norm(a).replace(/\s+/g, ""); b = norm(b).replace(/\s+/g, "");
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+    const m = a.length, n = b.length;
+    let prev = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) {
+      const cur = [i];
+      for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return Math.max(0, 1 - prev[n] / Math.max(m, n));
+  }
+  function bestMatch(targets, heardList) {
+    let best = { score: 0, heard: heardList[0] || "", target: targets[0] };
+    for (const t of targets) for (const hd of heardList) {
+      const s = similarity(t, hd);
+      if (s > best.score) best = { score: s, heard: hd, target: t };
+    }
+    return best;
+  }
+  function openTalk(w) {
+    talkWord = w;
+    $("talkWord").textContent = w.en;
+    $("talkPt").textContent = w.pt;
+    $("talkPr").textContent = w.pr ? "Fala-se: " + w.pr : "";
+    $("talkResult").hidden = true;
+    $("talkHint").textContent = "Toque no microfone e fale";
+    $("talkMic").innerHTML = MIC_ICON;
+    $("talkMic").classList.remove("listening");
+    $("talkListen").hidden = $("talkSlow").hidden = !canSpeak;
+    $("talk").hidden = false;
+    $("talkMic").focus();
+  }
+  function closeTalk() {
+    stopListening();
+    $("talk").hidden = true;
+    talkWord = null;
+  }
+  function stopListening() {
+    if (rec) { try { rec.abort(); } catch (e) {} }
+    rec = null; listening = false;
+    clearTimeout(listenTimer);
+    stopMeter();
+    $("talkMic").classList.remove("listening");
+  }
+  function showTalkResult(alts) {
+    const w = talkWord;
+    if (!w) return;
+    const targets = String(w.en).split(/[\/;]/).map(s => s.trim()).filter(Boolean);
+    const best = bestMatch(targets, alts);
+    const pct = Math.round(best.score * 100);
+    const box = $("talkResult");
+    box.hidden = false;
+    box.className = "talk-result " + (pct >= 90 ? "good" : pct >= 65 ? "mid" : "low");
+    $("talkScore").textContent = pct + "%";
+    $("talkVerdict").textContent = pct >= 90 ? "Perfeito! Deu para entender certinho." : pct >= 65 ? "Quase lá! Ouça de novo e repita." : "Ainda não. Ouça o certo e tente de novo.";
+    $("talkHeard").innerHTML = "";
+    const lab = document.createTextNode("Entendi: ");
+    const b = document.createElement("b");
+    b.textContent = best.heard ? "\u201C" + best.heard + "\u201D" : "nada";
+    $("talkHeard").append(lab, b);
+    // palavra por palavra (para combinações e frases)
+    const wb = $("talkWords");
+    wb.innerHTML = "";
+    const tw = String(best.target).split(/\s+/).filter(Boolean);
+    if (tw.length > 1) {
+      const heardWords = wordsOf(best.heard);
+      for (const t of tw) {
+        const k = norm(t).replace(/\s+/g, "");
+        const hit = heardWords.some(hw => similarity(hw, k) >= 0.8);
+        const s = document.createElement("span");
+        s.className = hit ? "hit" : "miss";
+        s.textContent = t;
+        wb.appendChild(s);
+      }
+    }
+    $("talkHint").textContent = "Toque no microfone para tentar de novo";
+  }
+  // medidor de volume do microfone (mostra se a voz está chegando)
+  let meter = null;
+  // o microfone é pedido uma vez só e reaproveitado; é liberado depois de 5 minutos sem uso
+  let micStream = null, micCtx = null, micIdle = null;
+  async function getMic() {
+    clearTimeout(micIdle);
+    if (micStream && micStream.getTracks().some(t => t.readyState === "live")) return micStream;
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    return micStream;
+  }
+  function releaseMicLater() {
+    clearTimeout(micIdle);
+    micIdle = setTimeout(() => {
+      if (micStream) micStream.getTracks().forEach(t => t.stop());
+      micStream = null;
+      if (micCtx) { try { micCtx.close(); } catch (e) {} micCtx = null; }
+    }, 5 * 60 * 1000);
+  }
+  async function startMeter() {
+    stopMeter();
+    const m = { stream: null, ctx: null, raf: 0, peak: 0, started: performance.now(), warned: false };
+    meter = m;
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+      m.stream = await getMic();
+      if (meter !== m) return;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!micCtx) micCtx = new AC();
+      if (micCtx.state === "suspended") { try { await micCtx.resume(); } catch (e) {} }
+      m.ctx = micCtx;
+      const src = m.ctx.createMediaStreamSource(m.stream);
+      m.src = src;
+      const an = m.ctx.createAnalyser();
+      an.fftSize = 512;
+      src.connect(an);
+      const data = new Uint8Array(an.fftSize);
+      const mic = $("talkMic");
+      const tick = () => {
+        if (meter !== m) return;
+        an.getByteTimeDomainData(data);
+        let sum = 0;
+        for (let i = 0; i < data.length; i++) { const v = (data[i] - 128) / 128; sum += v * v; }
+        const lvl = Math.min(1, Math.sqrt(sum / data.length) * 6);
+        m.peak = Math.max(m.peak, lvl);
+        mic.style.setProperty("--lvl", lvl.toFixed(3));
+        if (!m.warned && performance.now() - m.started > 3500 && m.peak < 0.06) {
+          m.warned = true;
+          $("talkHint").textContent = "Seu microfone não está captando som. Confira se o microfone certo está selecionado e se não está mudo.";
+        }
+        m.raf = requestAnimationFrame(tick);
+      };
+      tick();
+    } catch (e) { /* sem medidor, o reconhecimento continua funcionando */ }
+  }
+  function stopMeter() {
+    const m = meter;
+    meter = null;
+    if (!m) return;
+    cancelAnimationFrame(m.raf);
+    if (m.src) { try { m.src.disconnect(); } catch (e) {} }
+    releaseMicLater();
+    $("talkMic").style.removeProperty("--lvl");
+  }
+
+  let listenTimer = null;
+  function startListening() {
+    if (!canListen || !talkWord) return;
+    if (listening) { try { rec.stop(); } catch (e) {} return; }
+    try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) {}
+    rec = new SR();
+    rec.lang = "en-US";
+    rec.interimResults = true;
+    rec.maxAlternatives = 5;
+    rec.continuous = true; // espera mais tempo antes de desistir
+    let finalAlts = null, lastInterim = "", errMsg = "";
+    rec.onresult = (e) => {
+      for (let i = e.resultIndex || 0; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) {
+          finalAlts = Array.from(r).map(a => a.transcript.trim()).filter(Boolean);
+          try { rec.stop(); } catch (er) {}
+          return;
+        }
+        lastInterim = r[0].transcript.trim();
+        if (lastInterim) $("talkHint").textContent = "\u201C" + lastInterim + "\u201D";
+      }
+    };
+    rec.onerror = (e) => {
+      errMsg = {
+        "not-allowed": "Permita o uso do microfone no navegador para usar essa função.",
+        "service-not-allowed": "O navegador não deixou usar o reconhecimento de voz aqui. Tente abrir o arquivo HTML direto no Chrome.",
+        "no-speech": "Não ouvi nada. Confira se o microfone certo está selecionado e fale assim que o botão ficar vermelho.",
+        "audio-capture": "Não encontrei um microfone.",
+        "network": "O reconhecimento de voz precisa de internet.",
+        "aborted": ""
+      }[e.error];
+      if (errMsg === undefined) errMsg = "Não consegui ouvir agora. Tente de novo.";
+    };
+    rec.onend = () => {
+      clearTimeout(listenTimer);
+      listening = false;
+      stopMeter();
+      $("talkMic").classList.remove("listening");
+      if ((!finalAlts || !finalAlts.length) && lastInterim) finalAlts = [lastInterim];
+      if (finalAlts && finalAlts.length) showTalkResult(finalAlts);
+      else if (errMsg) $("talkHint").textContent = errMsg;
+      else if (!meter) $("talkHint").textContent = "Não ouvi nada. Toque no microfone e tente de novo.";
+      rec = null;
+    };
+    try {
+      rec.start();
+      listening = true;
+      $("talkMic").classList.add("listening");
+      $("talkHint").textContent = "Ouvindo… fale agora";
+      if (micStream) startMeter(); else setTimeout(() => { if (listening) startMeter(); }, 700);
+      clearTimeout(listenTimer);
+      listenTimer = setTimeout(() => { if (rec) { try { rec.stop(); } catch (e) {} } }, 10000);
+    } catch (e) {
+      $("talkHint").textContent = "Não consegui ligar o microfone. Tente de novo.";
+    }
+  }
+  $("talkMic").addEventListener("click", startListening);
+  $("talkClose").addEventListener("click", closeTalk);
+  $("talk").addEventListener("click", (e) => { if (e.target === $("talk")) closeTalk(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("talk").hidden) closeTalk(); });
+  $("talkListen").addEventListener("click", () => { if (talkWord) speak(talkWord.en); });
+  $("talkSlow").addEventListener("click", () => { if (talkWord) speak(talkWord.en, 0.5); });
+
+  const SPEAK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  function makeSpeakBtn(text) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "speak";
+    b.innerHTML = SPEAK_ICON;
+    b.setAttribute("aria-label", "Ouvir " + text);
+    b.hidden = !canSpeak;
+    b.addEventListener("click", () => speak(text));
+    return b;
+  }
+
+  let pronBusy = false;
+  function missingPron() { return words.filter(w => !w.pr); }
+  function updatePronBtn() {
+    const b = $("btnPron");
+    if (!b) return;
+    b.hidden = !sampleFn || !missingPron().length;
+    b.disabled = pronBusy;
+  }
+  async function fillPronunciations(items) {
+    if (!sampleFn) return;
+    const todo = items.filter(w => !w.pr);
+    if (!todo.length) return;
+    pronBusy = true; updatePronBtn();
+    const ens = Array.from(new Set(todo.map(w => w.en)));
+    try {
+      for (let i = 0; i < ens.length; i += 40) {
+        const chunk = ens.slice(i, i + 40);
+        const prompt =
+          "Para cada palavra ou frase em inglês da lista, escreva como ela se pronuncia no inglês americano, " +
+          "usando a escrita do português do Brasil, de um jeito que um brasileiro leia em voz alta e soe parecido. " +
+          "Separe as sílabas com hífen e escreva a sílaba mais forte em MAIÚSCULAS. Não use símbolos fonéticos. " +
+          "Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu.\n" +
+          "Lista: " + JSON.stringify(chunk) + "\n" +
+          'Responda somente com um objeto JSON no formato {"palavra em inglês": "pronúncia"}, usando exatamente as chaves da lista e sem nenhum outro texto.';
+        const res = await sampleFn.json(prompt, { modelTier: "quick" });
+        if (res && typeof res === "object") {
+          for (const w of words) {
+            if (!w.pr && typeof res[w.en] === "string" && res[w.en].trim()) w.pr = res[w.en].trim();
+          }
+        }
+      }
+      render(); save();
+    } catch (e) {
+      statusEl.textContent = "Não consegui gerar a pronúncia agora.";
+    }
+    pronBusy = false; updatePronBtn();
+  }
+  $("btnPron").addEventListener("click", () => fillPronunciations(missingPron()));
+
+  function actionsBox(...btns) {
+    const d = document.createElement("div");
+    d.className = "actions";
+    d.append(...btns);
+    return d;
+  }
+
+  // ---- editar ----
+  let editOpen = null;
+  const EDIT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+  function buildEditPanel(w) {
+    const panel = document.createElement("div");
+    panel.className = "edit-panel";
+    const grid = document.createElement("div");
+    grid.className = "edit-grid";
+    const fields = {};
+    const defs = [
+      ["en", "Frase em inglês", w.en, false],
+      ["pt", "Tradução", w.pt, false],
+      ["pr", "Pronúncia", w.pr || "", false],
+      ["ctx", "Nota", w.ctx || "", false]
+    ];
+    for (const [k, lab, val] of defs) {
+      const l = document.createElement("label");
+      l.textContent = lab;
+      const inp = document.createElement("input");
+      inp.value = val;
+      inp.addEventListener("keydown", e => { if (e.key === "Enter") saveBtn.click(); if (e.key === "Escape") cancel.click(); });
+      l.appendChild(inp);
+      grid.appendChild(l);
+      fields[k] = inp;
+    }
+    panel.appendChild(grid);
+    const msg = document.createElement("p");
+    msg.className = "edit-msg";
+    const actions = document.createElement("div");
+    actions.className = "split-actions";
+    const saveBtn = document.createElement("button");
+    saveBtn.type = "button"; saveBtn.className = "btn-add"; saveBtn.textContent = "Salvar";
+    const cancel = document.createElement("button");
+    cancel.type = "button"; cancel.className = "tool"; cancel.textContent = "Cancelar";
+    cancel.addEventListener("click", () => { editOpen = null; render(); });
+    saveBtn.addEventListener("click", () => {
+      const en = fields.en.value.trim(), pt = fields.pt.value.trim();
+      const pr = fields.pr.value.trim(), ctx = fields.ctx.value.trim();
+      if (!en || !pt) { msg.textContent = "Inglês e português não podem ficar vazios."; return; }
+      const k = enKey(en);
+      if (words.some(o => o !== w && enKey(o.en) === k)) { msg.textContent = "\"" + en + "\" já está na sua lista."; return; }
+      const enChanged = en !== w.en;
+      const prUntouched = pr === (w.pr || "");
+      w.en = en; w.pt = pt;
+      if (pr && !(enChanged && prUntouched)) w.pr = pr; else delete w.pr;
+      if (ctx) w.ctx = ctx; else delete w.ctx;
+      editOpen = null;
+      render(); save();
+      statusEl.textContent = "Frase atualizada.";
+      if (!w.pr) fillPronunciations([w]);
+    });
+    actions.append(saveBtn, cancel);
+    panel.append(msg, actions);
+    setTimeout(() => fields.en.focus(), 0);
+    return panel;
+  }
+
+  // ---- colar várias de uma vez ----
+  function fixEnCase(s) {
+    const letters = s.replace(/[^A-Za-zÀ-ÿ]/g, "");
+    if (letters && letters === letters.toUpperCase()) s = s.toLowerCase();
+    return s.replace(/\bi\b/g, "I").replace(/\bi(['’´](m|ve|ll|d))\b/gi, (m, a) => "I" + a.toLowerCase());
+  }
+  function fixPtCase(s) {
+    const letters = s.replace(/[^A-Za-zÀ-ÿ]/g, "");
+    if (letters && letters === letters.toUpperCase() && letters.length > 1) return s.toLowerCase();
+    if (s.length > 1 && s[1] === s[1].toLowerCase()) return s.charAt(0).toLowerCase() + s.slice(1);
+    return s;
+  }
+  function stripEnds(s) {
+    return s.trim().replace(/^["'“”‘’«»(\[]+|["'“”‘’«»)\]]+$/g, "").replace(/^[\s.,;:!?…-]+|[\s.,;:!?…]+$/g, "").trim();
+  }
+  function stripQuotes(s) { return s.trim().replace(/^["“”«(]+|["“”»)]+$/g, "").trim(); }
+  function endDot(s) { s = String(s).trim(); return /[.!?…]["”']?$/.test(s) ? s : s + "."; }
+  function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function parsePaste(text) {
+    const rows = [];
+    let sentence = [];
+    const sentences = [];
+    for (let raw of String(text).split(/\r?\n/)) {
+      let line = raw.replace(/^\s*(?:[*\-•·▪◦►>]+|\d+[.)])\s*/, "").replace(/\*\*/g, "").trim();
+      if (!line) continue;
+      let m = line.match(/^(.+?)\s*=\s*(.+)$/) || line.match(/^(.+?)\s+[–—-]\s+(.+)$/) || line.match(/^(.+?)\t+(.+)$/);
+      if (!m) continue;
+      const enRaw = m[1].trim(), ptRaw = m[2].trim();
+      const en = capFirst(fixEnCase(stripQuotes(enRaw)));
+      const pt = capFirst(stripQuotes(ptRaw).replace(/^[A-ZÀ-Ý\s.,;:!?'"-]+$/, s => s.toLowerCase()));
+      if (!en || !pt) continue;
+      const piece = fixEnCase(enRaw.replace(/^["'“”(]+|["'“”)]+$/g, ""));
+      sentence.push(piece);
+      const row = { en, pt, sIdx: sentences.length };
+      rows.push(row);
+      if (/[.!?…]["'”)]*$/.test(enRaw)) { sentences.push(sentence.join(" ")); sentence = []; }
+    }
+    if (sentence.length) sentences.push(sentence.join(" "));
+    const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+    // junta as repetidas (mesma palavra em inglês) e guarda a frase onde apareceu
+    const map = new Map(), out = [];
+    for (const r of rows) {
+      const k = enKey(r.en);
+      const ctx = sentences[r.sIdx] ? cap(sentences[r.sIdx]) : "";
+      if (map.has(k)) {
+        const it = map.get(k);
+        if (!it.pts.some(p => norm(p) === norm(r.pt))) it.pts.push(r.pt);
+        it.merged = true;
+        continue;
+      }
+      const it = { en: r.en, pts: [r.pt], ctx, merged: false, exists: alreadyHave(r.en) };
+      map.set(k, it);
+      out.push(it);
+    }
+    return { items: out, lines: rows.length };
+  }
+
+  let pasteParsed = { items: [], lines: 0 };
+  function renderPastePreview() {
+    pasteParsed = parsePaste($("pasteText").value);
+    const box = $("pastePreview");
+    box.innerHTML = "";
+    const add = $("pasteAdd");
+    const fresh = pasteParsed.items.filter(i => !i.exists);
+    add.disabled = !fresh.length;
+    add.textContent = fresh.length ? "Adicionar " + fresh.length + (fresh.length === 1 ? " frase" : " frases") : "Adicionar";
+    if (!$("pasteText").value.trim()) return;
+    const sum = document.createElement("p");
+    sum.className = "paste-sum";
+    const existing = pasteParsed.items.length - fresh.length;
+    const merged = pasteParsed.items.filter(i => i.merged).length;
+    sum.textContent = !pasteParsed.items.length
+      ? "Não encontrei nenhuma linha no formato inglês = português."
+      : fresh.length + (fresh.length === 1 ? " nova" : " novas") +
+        (merged ? ", " + merged + (merged === 1 ? " repetida juntada" : " repetidas juntadas") : "") +
+        (existing ? ", " + existing + " já " + (existing === 1 ? "está" : "estão") + " na lista" : "");
+    box.appendChild(sum);
+    if (!pasteParsed.items.length) return;
+    const ul = document.createElement("ul");
+    ul.className = "paste-list";
+    pasteParsed.items.forEach((it, idx) => {
+      const li = document.createElement("li");
+      if (it.exists) li.className = "skip";
+      const n = document.createElement("span"); n.className = "n"; n.textContent = idx + 1;
+      const e = document.createElement("span"); e.className = "e"; e.textContent = it.en;
+      const a = document.createElement("span"); a.className = "arrow"; a.textContent = "→";
+      const t = document.createElement("span"); t.textContent = it.pts.join(" / ");
+      li.append(n, e, a, t);
+      if (it.exists || it.merged) {
+        const tag = document.createElement("span");
+        tag.className = "tag" + (it.exists ? "" : " merge");
+        tag.textContent = it.exists ? "já está na lista" : "repetida, juntei";
+        li.appendChild(tag);
+      }
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  }
+  function closePaste() {
+    $("pastePanel").hidden = true;
+    $("pasteToggle").hidden = false;
+  }
+  $("pasteToggle").addEventListener("click", () => {
+    $("pastePanel").hidden = false;
+    $("pasteToggle").hidden = true;
+    $("pasteText").focus();
+  });
+  $("pasteCancel").addEventListener("click", closePaste);
+  $("pasteText").addEventListener("input", renderPastePreview);
+  $("pasteAdd").addEventListener("click", () => {
+    renderPastePreview();
+    const fresh = pasteParsed.items.filter(i => !i.exists);
+    if (!fresh.length) return;
+    const today = todayStr();
+    const newWords = fresh.map(i => {
+      const w = { id: uid(), added: today, en: i.en, pt: i.pts.join(" / ") };
+      // modo frases: a própria linha já é a frase, então não guarda "fala" montada
+      return w;
+    });
+    // mantém a ordem colada: a primeira da lista fica em cima
+    words = newWords.concat(words);
+    const dn = $("pasteDay").value.trim();
+    if (dn) dayNames[today] = dn;
+    $("pasteText").value = ""; $("pasteDay").value = "";
+    renderPastePreview();
+    closePaste();
+    render(); save();
+    statusEl.textContent = newWords.length === 1 ? "1 frase adicionada." : newWords.length + " frases adicionadas.";
+    fillPronunciations(newWords);
+  });
+
+  // ---- palavras repetidas ----
+  // mesma palavra em inglês (ignorando maiúsculas, acentos e "to/the/a/an") conta como repetida
+  function enKey(en) { return norm(en).replace(/^(to|the|a|an) /, ""); }
+  function removeDuplicates(list) {
+    // palavras acertadas antes de existir a contagem de seguidos:
+    // como os dias dobram a cada acerto (2, 4, 8...), dá para saber quantos acertos seguidos ela tem
+    let migrated = 0;
+    for (const w of list) {
+      if (w && w.streak === undefined && Number(w.interval) >= 2) {
+        w.streak = Math.max(1, Math.round(Math.log2(Number(w.interval))));
+        migrated++;
+      }
+      // acertos seguidos no treino do dia: os dias dobram a cada acerto (2=1, 4=2, 8=3, 16=4, 32=5, 60=6)
+      if (w && w.dstreak === undefined) {
+        const iv = Number(w.interval) || 0;
+        w.dstreak = iv >= 2 ? Math.min(FLUENT_AT, Math.round(Math.log2(iv))) : 0;
+        migrated++;
+      }
+      if (w && Number(w.interval) > 60) { w.interval = 60; migrated++; }
+      if (w && w.due && daysUntil(w.due) > 60) { w.due = todayStr(60); migrated++; }
+    }
+    // fica a que tem mais progresso no treino; empate: a mais antiga
+    const best = new Map();
+    list.forEach((w, i) => {
+      const k = enKey(w.en);
+      const cur = best.get(k);
+      const score = (w.interval || 0);
+      if (!cur || score > cur.score || (score === cur.score && i > cur.i)) best.set(k, { w, i, score });
+    });
+    const keep = new Set(Array.from(best.values()).map(x => x.w));
+    const out = list.filter(w => keep.has(w));
+    return { list: out, removed: list.length - out.length, migrated };
+  }
+
+  // ---- dividir frases ----
+  function enWordsOf(text) {
+    const found = String(text).match(/[A-Za-zÀ-ÿ]+(?:['’-][A-Za-zÀ-ÿ]+)*/g) || [];
+    const seen = new Set(), out = [];
+    for (const t of found) {
+      const k = t.toLowerCase();
+      if (seen.has(k)) continue;
+      seen.add(k);
+      out.push(t === "I" ? t : t.toLowerCase());
+    }
+    return out;
+  }
+  function alreadyHave(word) {
+    const k = enKey(word);
+    return words.some(w => enKey(w.en) === k || String(w.en).split("/").some(o => enKey(o) === k));
+  }
+
+  function buildSplitPanel(w) {
+    const panel = document.createElement("div");
+    panel.className = "split-panel";
+    const list = enWordsOf(w.en);
+    const rows = [];
+
+    const intro = document.createElement("p");
+    intro.textContent = "Escreva a tradução de cada palavra. Deixe em branco as que não quiser adicionar.";
+    panel.appendChild(intro);
+
+    for (const word of list) {
+      const row = document.createElement("div");
+      row.className = "split-row";
+      const lab = document.createElement("span");
+      lab.className = "w";
+      lab.textContent = word;
+      row.appendChild(lab);
+      if (alreadyHave(word)) {
+        const have = document.createElement("span");
+        have.className = "have";
+        have.textContent = "já está na sua lista";
+        row.appendChild(have);
+      } else {
+        const inp = document.createElement("input");
+        inp.placeholder = "tradução de " + word;
+        inp.setAttribute("aria-label", "Tradução de " + word);
+        row.appendChild(inp);
+        rows.push({ word, inp });
+      }
+      panel.appendChild(row);
+    }
+
+    const msg = document.createElement("p");
+    msg.style.margin = "10px 0 0";
+    panel.appendChild(msg);
+
+    const actions = document.createElement("div");
+    actions.className = "split-actions";
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "btn-add";
+    addBtn.textContent = "Adicionar palavras";
+    addBtn.addEventListener("click", () => {
+      const fresh = rows
+        .filter(r => r.inp.value.trim())
+        .map(r => ({ id: uid(), added: todayStr(), en: r.word, pt: r.inp.value.trim(), ctx: w.ctx || w.en }));
+      if (!fresh.length) { msg.textContent = "Escreva pelo menos uma tradução."; return; }
+      words = fresh.concat(words);
+      splitOpen = null;
+      render(); save();
+      fillPronunciations(fresh);
+      statusEl.textContent = fresh.length === 1 ? "1 palavra adicionada." : fresh.length + " palavras adicionadas.";
+    });
+
+    const sugBtn = document.createElement("button");
+    sugBtn.type = "button";
+    sugBtn.className = "tool";
+    sugBtn.textContent = "Sugerir traduções";
+    sugBtn.hidden = !sampleFn || !rows.length;
+    sugBtn.addEventListener("click", async () => {
+      sugBtn.disabled = true;
+      msg.textContent = "Buscando traduções…";
+      try {
+        const prompt =
+          "Traduza para o português do Brasil cada palavra inglesa da lista, usando o sentido que ela tem nesta frase.\n" +
+          "Frase: " + JSON.stringify(w.en) + "\nTradução da frase: " + JSON.stringify(w.pt) + "\n" +
+          "Palavras: " + JSON.stringify(rows.map(r => r.word)) + "\n" +
+          "Responda somente com um objeto JSON no formato {\"palavra\": \"tradução\"}, sem nenhum outro texto.";
+        const res = await sampleFn.json(prompt, { modelTier: "quick" });
+        let filled = 0;
+        for (const r of rows) {
+          const t = res && (res[r.word] || res[r.word.toLowerCase()]);
+          if (t && !r.inp.value.trim()) { r.inp.value = String(t); filled++; }
+        }
+        msg.textContent = filled ? "Confira as sugestões e corrija se precisar." : "Não consegui sugerir traduções agora.";
+      } catch (e) {
+        msg.textContent = "Não consegui sugerir traduções agora. Você pode escrever à mão.";
+      }
+      sugBtn.disabled = false;
+    });
+
+    if (!rows.length) {
+      intro.textContent = "Todas as palavras dessa frase já estão na sua lista.";
+      addBtn.hidden = true;
+    }
+    actions.append(addBtn, sugBtn);
+    panel.appendChild(actions);
+    setTimeout(() => { const f = rows[0]; if (f) f.inp.focus(); }, 0);
+    return panel;
+  }
+
+  // ---- treino ----
+  const quiz = { queue: [], current: null, answered: false, right: 0, total: 0, done: 0, size: 0 };
+  const qEl = {
+    box: $("quiz"), word: $("quizWord"), input: $("quizInput"), result: $("quizResult"),
+    progress: $("quizProgress"), score: $("quizScore"), next: $("quizNext"),
+    skip: $("quizSkip"), check: $("quizCheck"), btn: $("btnQuiz")
+  };
+
+  function norm(s) {
+    return String(s).toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[.,!?;:'"’‘´`]/g, "")
+      .replace(/\s+/g, " ").trim();
+  }
+  // ---- correção (palavras e frases) ----
+  // diferença entre duas palavras, em letras (para o "quase")
+  function editDistance(a, b) {
+    const m = a.length, n = b.length;
+    if (Math.abs(m - n) > 2) return 99;
+    let prev = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) {
+      const cur = [i];
+      for (let j = 1; j <= n; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      }
+      prev = cur;
+    }
+    return prev[n];
+  }
+  // deixa a frase num formato padrão: minúsculas, sem pontuação e com as contrações abertas
+  const CONTRACTIONS = [
+    [/\bwon't\b/g, "will not"], [/\bcan't\b/g, "can not"], [/\bcannot\b/g, "can not"], [/\bshan't\b/g, "shall not"],
+    [/\bain't\b/g, "is not"], [/\b(\w+)n't\b/g, "$1 not"], [/\bi'm\b/g, "i am"],
+    [/\b(\w+)'re\b/g, "$1 are"], [/\b(\w+)'ve\b/g, "$1 have"], [/\b(\w+)'ll\b/g, "$1 will"], [/\b(\w+)'d\b/g, "$1 would"],
+    [/\blet's\b/g, "let us"], [/\b(it|that|what|there|here|he|she|who|where|how|this|everything|nothing|something)'s\b/g, "$1 is"],
+    [/\bgonna\b/g, "going to"], [/\bwanna\b/g, "want to"], [/\bgotta\b/g, "got to"], [/\bkinda\b/g, "kind of"],
+    [/\b(do|does|did|is|are|was|were|have|has|had|could|should|would|must|need)nt\b/g, "$1 not"],
+    [/\bcant\b/g, "can not"], [/\bwont\b/g, "will not"], [/\bim\b/g, "i am"], [/\bive\b/g, "i have"],
+    [/\b(that|what|there|it)s\b/g, "$1 is"], [/\byoure\b/g, "you are"], [/\btheyre\b/g, "they are"],
+    [/\by'all\b/g, "you all"], [/\b'cause\b/g, "because"], [/\bok\b/g, "okay"]
+  ];
+  function canonWords(s) {
+    let t = String(s).toLowerCase().replace(/[’‘´`]/g, "'");
+    for (const [re, to] of CONTRACTIONS) t = t.replace(re, to);
+    return norm(t).replace(/-/g, " ").split(" ").filter(Boolean);
+  }
+  function optionsOf(correct) { return String(correct).split("/").map(s => s.trim()).filter(Boolean); }
+  function stripArticle(ws) { return ws.length <= 3 && /^(to|the|a|an)$/.test(ws[0] || "") && ws.length > 1 ? ws.slice(1) : ws; }
+  function isRight(answer, correct) {
+    const a = canonWords(answer);
+    if (!a.length) return false;
+    return optionsOf(correct).some(o => {
+      const c = canonWords(o);
+      const j = x => x.join(" ");
+      return j(a) === j(c) || j(stripArticle(a)) === j(stripArticle(c));
+    });
+  }
+  function wordClose(a, b) {
+    if (a === b) return true;
+    if (Math.min(a.length, b.length) < 4) return false;
+    return editDistance(a, b) <= (b.length >= 8 ? 2 : 1);
+  }
+  // compara palavra por palavra e diz quais palavras da resposta certa apareceram
+  function compareWords(answer, correct) {
+    let best = null;
+    for (const o of optionsOf(correct)) {
+      const a = canonWords(answer), c = canonWords(o);
+      const n = a.length, m = c.length;
+      const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+      for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+        dp[i][j] = wordClose(a[i], c[j]) ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+      const hit = new Array(m).fill(false);
+      let i = 0, j = 0;
+      while (i < n && j < m) {
+        if (wordClose(a[i], c[j]) && dp[i][j] === dp[i + 1][j + 1] + 1) { hit[j] = true; i++; j++; }
+        else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+      }
+      const matched = hit.filter(Boolean).length;
+      const extra = n - matched;
+      const ratio = m ? matched / Math.max(m, m + extra * 0.5) : 0;
+      const r = { words: c, hit, ratio, missing: m - matched, extra };
+      if (!best || r.ratio > best.ratio) best = r;
+    }
+    return best || { words: [], hit: [], ratio: 0, missing: 0, extra: 0 };
+  }
+  function isAlmost(answer, correct) {
+    const c = canonWords(optionsOf(correct)[0] || "");
+    if (c.length <= 2) {
+      const a = stripArticle(canonWords(answer)).join(" ");
+      if (a.length < 2) return false;
+      return optionsOf(correct).map(o => stripArticle(canonWords(o)).join(" "))
+        .some(o => o.length >= 3 && editDistance(a, o) <= (o.length >= 7 ? 2 : 1));
+    }
+    return compareWords(answer, correct).ratio >= 0.7;
+  }
+  function renderDiff(answer, correct) {
+    const box = $("quizDiff");
+    box.innerHTML = "";
+    const r = compareWords(answer, correct);
+    if (r.words.length < 3) { box.hidden = true; return; }
+    r.words.forEach((w, i) => {
+      const s = document.createElement("span");
+      s.className = r.hit[i] ? "hit" : "miss";
+      s.textContent = w;
+      box.appendChild(s);
+    });
+    box.hidden = false;
+  }
+
+  // é uma palavra só (não frase)? ignora "to/the/a/an" no inglês e "o/a/os/as/um/uma" no português
+  function isSingle(text, lang) {
+    const art = lang === "en" ? /^(to|the|a|an) /i : /^(o|a|os|as|um|uma) /i;
+    return String(text).split(/[\/,;]/).every(part => {
+      const t = part.trim().replace(/\s+/g, " ").replace(art, "");
+      return t.length > 0 && !t.includes(" ");
+    });
+  }
+
+  // ---- agenda (repetição espaçada) ----
+  // acertou: 2 dias na primeira vez, depois dobra (2, 4, 8, 16...)
+  // errou: volta no dia seguinte e recomeça
+  function pad2(n) { return String(n).padStart(2, "0"); }
+  function todayStr(offset) {
+    const d = new Date();
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + (offset || 0));
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+  }
+  function daysUntil(due) {
+    if (!due || !/^\d{4}-\d{2}-\d{2}$/.test(due)) return 0;
+    const [y, m, d] = due.split("-").map(Number);
+    const a = new Date(y, m - 1, d, 12);
+    const t = new Date(); t.setHours(12, 0, 0, 0);
+    return Math.round((a - t) / 86400000);
+  }
+  function whenText(n) { return n <= 0 ? "hoje" : n === 1 ? "amanhã" : "em " + n + " dias"; }
+  // tudo o que foi adicionado entra no treino, do jeito que está no cartão
+  function quizable(w) { return !!(w && String(w.en).trim()); }
+  function isDue(w) { return daysUntil(w.due) <= 0; }
+  function dueWords() { return words.filter(w => quizable(w) && isDue(w)); }
+  // fluente: FLUENT_AT acertos seguidos no treino do dia (o último depois de ~1 mês sem ver),
+  // cerca de 2 meses no total. Treino livre e Estudar não contam; errar em qualquer treino zera.
+  const FLUENT_AT = 6;
+  // depois de acertar, a palavra passa a ser perguntada só pelo áudio; errou, volta a mostrar o português
+  function audioMode(w) { return canSpeak && (w.streak || 0) >= 1; }
+  function isFluent(w) { return (w.dstreak || 0) >= FLUENT_AT; }
+
+  const MAX_DAYS = 60; // a palavra nunca demora mais que isso para voltar
+  function schedule(w, ok) {
+    if (ok) w.interval = Math.min(MAX_DAYS, (w.interval && w.interval >= 2) ? w.interval * 2 : 2);
+    else w.interval = 1;
+    w.due = todayStr(w.interval);
+    return w.interval;
+  }
+
+  function updateQuizTop() {
+    qEl.progress.textContent = (quiz.label ? quiz.label + ": " : quiz.free ? "Treino livre: " : "") + "Pergunta " + Math.min(quiz.done + 1, quiz.size) + " de " + quiz.size;
+    qEl.score.textContent = quiz.right + " acerto" + (quiz.right === 1 ? "" : "s");
+  }
+
+  function openQuizBox() {
+    qEl.box.hidden = false;
+    qEl.btn.hidden = true;
+    listEl.hidden = true;
+    $("bar").hidden = true;
+    $("addForm").hidden = true;
+    $("pasteWrap").hidden = true;
+    qEl.box.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  function showScreen(title, big, note, nextLabel) {
+    quiz.current = null;
+    $("quizDiff").hidden = true;
+    qEl.word.classList.remove("long");
+    $("quizCtx").hidden = true;
+    qEl.word.hidden = false;
+    $("quizAudio").hidden = true;
+    document.querySelector(".quiz-q").textContent = title;
+    qEl.word.textContent = big;
+    $("quizForm").hidden = true;
+    qEl.result.textContent = note;
+    qEl.result.className = "quiz-result";
+    $("quizPr").textContent = "";
+    $("quizFluent").hidden = true;
+    $("quizListen").hidden = true;
+    $("quizTalk").hidden = true;
+    qEl.skip.hidden = true;
+    qEl.next.hidden = !nextLabel;
+    qEl.next.textContent = nextLabel || "";
+    qEl.next.focus();
+  }
+
+  function startQuiz(free, subset, label) {
+    quiz.free = !!free;
+    quiz.subset = subset || null;
+    quiz.label = label || "";
+    const singles = (subset || words).filter(quizable);
+    if (!singles.length) {
+      statusEl.textContent = words.length
+        ? "O treino só pergunta palavras e combinações curtas, e sua lista só tem frases longas."
+        : "Adicione algumas frases antes de treinar.";
+      return;
+    }
+    const pool = quiz.free ? singles : singles.filter(isDue);
+    quiz.right = 0; quiz.done = 0; quiz.counted = 0;
+    openQuizBox();
+    if (!pool.length) {
+      const next = Math.min.apply(null, singles.map(w => daysUntil(w.due)));
+      quiz.state = "empty";
+      qEl.progress.textContent = ""; qEl.score.textContent = "";
+      showScreen("Tudo em dia!", "Nenhuma frase para hoje",
+        "A próxima frase volta " + whenText(next) + ". Se quiser, pode praticar todas agora. A prática não conta para nada.",
+        "Praticar todas");
+      return;
+    }
+    // Estudar um dia: mesma ordem dos cartões; treino do dia e prática: ordem aleatória
+    quiz.queue = subset ? pool.slice() : shuffled(pool);
+    quiz.size = quiz.queue.length;
+    nextQuestion();
+  }
+
+  function nextQuestion() {
+    if (!quiz.queue.length) { finishQuiz(); return; }
+    quiz.state = "question";
+    quiz.current = quiz.queue.shift();
+    quiz.answered = false;
+    quiz.almostUsed = false;
+    $("quizDiff").hidden = true;
+    $("quizCtx").hidden = true;
+    quiz.audio = audioMode(quiz.current);
+    qEl.word.textContent = quiz.audio ? "" : quiz.current.pt;
+    qEl.word.classList.toggle("long", String(quiz.current.pt).length > 28);
+    qEl.word.hidden = quiz.audio;
+    $("quizAudio").hidden = !quiz.audio;
+    qEl.input.value = "";
+    qEl.input.disabled = false;
+    qEl.check.disabled = false;
+    qEl.result.textContent = "";
+    qEl.result.className = "quiz-result";
+    $("quizPr").textContent = "";
+    $("quizFluent").hidden = true;
+    $("quizListen").hidden = true;
+    $("quizTalk").hidden = true;
+    qEl.next.hidden = true;
+    qEl.skip.hidden = false;
+    document.querySelector(".quiz-q").textContent = quiz.audio ? "Ouça e escreva em inglês" : "Como se diz em inglês?";
+    qEl.input.placeholder = quiz.audio ? "Escreva a frase que você ouviu" : "Escreva a frase em inglês";
+    $("quizForm").hidden = false;
+    updateQuizTop();
+    qEl.input.focus();
+    if (quiz.audio) setTimeout(() => speak(quiz.current.en), 250);
+  }
+
+  function answer(given) {
+    if (quiz.answered || !quiz.current) return;
+    quiz.answered = true;
+    quiz.done++;
+    const w = quiz.current;
+    const ok = given !== null && isRight(given, w.en);
+    // só conta se a palavra estava no treino de hoje; o resto é prática extra e não muda nada
+    const counts = !quiz.free || isDue(w);
+    if (counts) quiz.counted++;
+    const qf = $("quizFluent");
+    let when = "";
+    if (counts) {
+      if (ok) stats.right++; else stats.wrong++;
+      const wasFluent = isFluent(w);
+      w.streak = ok ? (w.streak || 0) + 1 : 0;
+      w.dstreak = ok ? (w.dstreak || 0) + 1 : 0;
+      if (ok && !wasFluent && isFluent(w)) {
+        qf.textContent = "Parabéns! Você está fluente nessa frase!";
+        qf.hidden = false;
+      } else if (!ok && wasFluent) {
+        qf.textContent = "Errou, então essa frase deixou de ser fluente. Recomeça a contagem.";
+        qf.hidden = false;
+      } else if (ok && !isFluent(w)) {
+        const faltam = FLUENT_AT - (w.dstreak || 0);
+        qf.textContent = (w.dstreak || 0) + " de " + FLUENT_AT + " para ficar fluente (" + (faltam === 1 ? "falta 1" : "faltam " + faltam) + ")";
+        qf.hidden = false;
+      } else {
+        qf.hidden = true;
+      }
+      const days = schedule(w, ok);
+      when = " Volta " + whenText(days) + ".";
+      if (!ok && quiz.audio) when += " Na próxima vez volta a mostrar em português.";
+      markStudied();
+      renderStats();
+      save();
+    } else {
+      qf.textContent = "Prática extra: esta frase não estava no treino de hoje, então não conta.";
+      qf.hidden = false;
+    }
+    if (quiz.audio) {
+      $("quizAudio").hidden = true;
+      qEl.word.hidden = false;
+      qEl.word.textContent = w.en;
+      qEl.word.classList.toggle("long", String(w.en).length > 28);
+      document.querySelector(".quiz-q").textContent = "Significa: " + w.pt;
+    }
+    if (ok) {
+      quiz.right++;
+      qEl.result.textContent = "Certo! " + endDot(w.en) + when;
+      qEl.result.className = "quiz-result ok";
+    } else {
+      qEl.result.textContent = (given === null ? "A resposta é: " : "Não é bem isso. A resposta é: ") + endDot(w.en) + when;
+      qEl.result.className = "quiz-result bad";
+    }
+    if (!ok && given !== null) renderDiff(given, w.en); else $("quizDiff").hidden = true;
+    $("quizPr").textContent = w.pr ? "Fala-se: " + w.pr : "";
+    if (w.ctx && norm(w.ctx) !== norm(w.en)) { $("quizCtx").textContent = "Nota: " + w.ctx; $("quizCtx").hidden = false; }
+    $("quizListen").hidden = !canSpeak;
+    $("quizTalk").hidden = !canListen;
+    speak(w.en);
+    qEl.input.disabled = true;
+    qEl.check.disabled = true;
+    qEl.skip.hidden = true;
+    qEl.next.hidden = false;
+    qEl.next.textContent = quiz.queue.length ? "Próxima" : "Ver resultado";
+    qEl.score.textContent = quiz.right + " acerto" + (quiz.right === 1 ? "" : "s");
+    qEl.next.focus();
+  }
+
+  function finishQuiz() {
+    quiz.state = "done";
+    const wrong = quiz.size - quiz.right;
+    qEl.progress.textContent = "";
+    showScreen(quiz.label ? "Treino de " + quiz.label + " concluído" : quiz.free ? "Treino livre concluído" : "Treino de hoje concluído",
+      quiz.right + " de " + quiz.size + " certas",
+      quiz.free ? (quiz.counted
+          ? (quiz.counted === 1 ? "1 frase estava no treino de hoje e contou." : quiz.counted + " frases estavam no treino de hoje e contaram.") + " As outras foram só prática."
+          : "Foi só prática: nenhuma dessas frases estava no treino de hoje, então nada mudou.")
+        : (wrong ? (wrong === 1 ? "A que você errou volta amanhã." : "As " + wrong + " que você errou voltam amanhã.") + " As certas voltam mais tarde."
+                 : "Todas certas! Cada uma volta com o dobro do tempo."),
+      "Voltar para a lista");
+    render();
+  }
+
+  function exitQuiz() {
+    qEl.box.hidden = true;
+    qEl.btn.hidden = false;
+    listEl.hidden = false;
+    $("bar").hidden = false;
+    $("addForm").hidden = false;
+    $("pasteWrap").hidden = false;
+    quiz.state = null;
+    render();
+  }
+
+  qEl.btn.addEventListener("click", () => startQuiz(false));
+  $("quizForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!qEl.input.value.trim()) { qEl.input.focus(); return; }
+    const cur = quiz.current;
+    if (cur && !quiz.answered && !quiz.almostUsed && !isRight(qEl.input.value, cur.en) && isAlmost(qEl.input.value, cur.en)) {
+      quiz.almostUsed = true;
+      const cw = compareWords(qEl.input.value, cur.en);
+      qEl.result.textContent = cw.words.length >= 3
+        ? "Quase! " + (cw.missing ? (cw.missing === 1 ? "Falta acertar 1 palavra." : "Faltam acertar " + cw.missing + " palavras.") : "Confira a escrita.") + " Tente de novo."
+        : "Quase! Confira a escrita e tente de novo.";
+      qEl.result.className = "quiz-result almost";
+      qEl.input.focus();
+      qEl.input.select();
+      return;
+    }
+    answer(qEl.input.value);
+  });
+  qEl.skip.addEventListener("click", () => answer(null));
+  qEl.next.addEventListener("click", () => {
+    if (quiz.state === "empty") startQuiz(true);
+    else if (quiz.state === "done") exitQuiz();
+    else nextQuestion();
+  });
+  $("quizExit").addEventListener("click", exitQuiz);
+  $("quizListen").addEventListener("click", () => { if (quiz.current) speak(quiz.current.en); });
+  $("quizTalk").addEventListener("click", () => { if (quiz.current) openTalk(quiz.current); });
+  $("quizPlay").addEventListener("click", () => { if (quiz.current) speak(quiz.current.en); qEl.input.focus(); });
+  $("quizSlow").addEventListener("click", () => { if (quiz.current) speak(quiz.current.en, 0.5); qEl.input.focus(); });
+
+  // aviso flutuante
+  let toastTimer = null;
+  new MutationObserver(() => {
+    const has = statusEl.textContent.trim().length > 0;
+    statusEl.classList.toggle("visible", has);
+    clearTimeout(toastTimer);
+    if (has) toastTimer = setTimeout(() => statusEl.classList.remove("visible"), 3200);
+  }).observe(statusEl, { childList: true, characterData: true, subtree: true });
+
+  // ---- start ----
+  {
+    const cleaned = removeDuplicates(loadLocal());
+    words = cleaned.list;
+    if (cleaned.migrated) saveLocal();
+    if (cleaned.removed) {
+      saveLocal();
+      setTimeout(() => {
+        statusEl.textContent = cleaned.removed === 1 ? "1 frase repetida foi excluída." : cleaned.removed + " frases repetidas foram excluídas.";
+      }, 300);
+    }
+  }
+  render();
+
+  (async function connect() {
+    if (!window.claude || typeof window.claude.use !== "function") { connectDone = true; updateBackup(); return; }
+    try {
+      window.claude.use("sample").then(s => { if (s) { sampleFn = s; $("inPt").placeholder = "Tradução em português (opcional)"; render(); } }).catch(() => {});
+      window.claude.use("downloads").then(d => { if (d) downloadsCap = d; }).catch(() => {});
+      db = await window.claude.use("db");
+      const user = await window.claude.use("user");
+      if (!db || !user) return;
+      const id = await user.id();
+      if (!id) return;
+      docRef = db.doc("data/users/" + id + "/vocab");
+      const snap = await docRef.get();
+      if (snap.exists) {
+        const data = snap.data() || {};
+        if (data.dayNames && typeof data.dayNames === "object") {
+          dayNames = Object.assign({}, data.dayNames, dayNames);
+        }
+        if (data.stats && typeof data.stats === "object") {
+          const rAt = Number(data.stats.resetAt) || 0, lAt = Number(stats.resetAt) || 0;
+          if (rAt > lAt) {
+            stats.right = Number(data.stats.right) || 0;
+            stats.wrong = Number(data.stats.wrong) || 0;
+            stats.resetAt = rAt;
+          } else if (rAt === lAt) {
+            stats.right = Math.max(stats.right, Number(data.stats.right) || 0);
+            stats.wrong = Math.max(stats.wrong, Number(data.stats.wrong) || 0);
+          }
+          if (typeof data.stats.last === "string" && data.stats.last > (stats.last || "")) {
+            stats.last = data.stats.last;
+            stats.days = Number(data.stats.days) || 0;
+          }
+          renderStats();
+        }
+        const remote = Array.isArray(data.list) ? data.list : [];
+        // merge in anything only stored locally
+        const ids = new Set(remote.map(w => w.id));
+        const extra = words.filter(w => !ids.has(w.id));
+        const merged = removeDuplicates(extra.concat(remote));
+        words = merged.list;
+        render(); saveLocal();
+        if (extra.length || merged.removed || merged.migrated) save();
+        if (merged.removed) statusEl.textContent = merged.removed === 1 ? "1 frase repetida foi excluída." : merged.removed + " frases repetidas foram excluídas.";
+      } else if (words.length) {
+        save();
+      }
+    } catch (e) {
+      docRef = null;
+    } finally {
+      connectDone = true;
+      updateBackup();
+    }
+  })();
+})();
+</script>
+</body>
+</html>
