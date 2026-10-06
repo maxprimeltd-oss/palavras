@@ -1257,7 +1257,7 @@
     if (!canSpeak) return;
     try {
       window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(String(text).split(/[\/,;]/)[0].trim());
+      const u = new SpeechSynthesisUtterance(String(text).split("/")[0].trim()); // lê a frase inteira (só "/" separa opções)
       u.lang = "en-US";
       u.rate = rate || 0.85;
       const v = window.speechSynthesis.getVoices().find(v => /^en[-_]US/i.test(v.lang)) ||
