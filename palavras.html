@@ -75,7 +75,7 @@
   /* ---------- topo ---------- */
   .hero {
     position: relative; overflow: hidden; isolation: isolate;
-    background: var(--brand); color: #fff; border-radius: 28px; padding: 28px 24px 24px;
+    background: var(--hero-bg, var(--brand)); color: #fff; border-radius: 28px; padding: 28px 24px 24px;
     box-shadow: var(--shadow-lg);
   }
   :root:not([data-theme="light"]) .hero { color: #fff; }
@@ -84,8 +84,8 @@
   }
   .hero::before { width: 260px; height: 260px; right: -90px; top: -110px; opacity: .10; }
   .hero::after { width: 140px; height: 140px; right: 90px; top: -70px; opacity: .06; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: #4B3FBF; } }
-  :root[data-theme="dark"] .hero { background: #4B3FBF; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: var(--hero-bg-dark, #4B3FBF); } }
+  :root[data-theme="dark"] .hero { background: var(--hero-bg-dark, #4B3FBF); }
   .hero-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
   h1 {
     font-family: "Sora", system-ui, sans-serif; font-weight: 700;
@@ -108,10 +108,34 @@
   .stat .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
   .btn-quiz {
     margin-top: 16px; width: 100%; border: 0; border-radius: 16px; padding: 15px 22px;
-    font-weight: 800; font-size: 1.02rem; background: #fff; color: #4A3BC4;
+    font-weight: 800; font-size: 1.02rem; background: #fff; color: var(--hero-bg, #4A3BC4);
     box-shadow: 0 10px 24px -12px rgba(0,0,0,.45); transition: transform .15s ease, box-shadow .15s ease;
   }
   .btn-quiz:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -12px rgba(0,0,0,.5); }
+
+  /* ---------- cadernos ---------- */
+  .cads { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .cad {
+    border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 800; font-size: 0.88rem;
+    background: var(--surface); color: var(--text); box-shadow: var(--shadow); display: inline-flex; gap: 6px; align-items: center;
+  }
+  .cad:hover { background: var(--surface-2); }
+  .cad.on { background: var(--hero-bg, var(--brand)); color: #fff; }
+  .cad.add { background: transparent; box-shadow: none; color: var(--brand-ink); border: 1.5px dashed var(--line); }
+  .cad.add:hover { background: var(--brand-soft); }
+  .cad-del { margin-left: auto; background: transparent; border: 0; color: var(--muted); font-size: 0.8rem; font-weight: 700; padding: 6px 8px; border-radius: 999px; }
+  .cad-del:hover { color: var(--bad); }
+  .cad-del.confirming { background: var(--bad); color: #fff; }
+  .cad-form { background: var(--surface); border-radius: var(--r-lg); padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+  .cad-title { margin: 0; font-family: "Sora", system-ui, sans-serif; font-weight: 700; font-size: 1.05rem; }
+  .cad-row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; }
+  @media (max-width: 560px) { .cad-row { grid-template-columns: 1fr; } }
+  .cad-form select, .cad-form input {
+    font: inherit; color: var(--text); background: var(--surface-2); height: 48px; min-width: 0;
+    border: 1.5px solid transparent; border-radius: var(--r-md); padding: 0 14px;
+  }
+  .cad-form select:focus, .cad-form input:focus { outline: none; border-color: var(--brand); }
+  .cad-help { margin: 0; color: var(--muted); font-size: 0.88rem; }
 
   /* ---------- botões base ---------- */
   .btn-add {
@@ -205,6 +229,46 @@
     box-shadow: var(--shadow);
   }
   .tools + .tools { margin-left: 0; }
+
+  /* ---------- trechos (Pimsleur) ---------- */
+  .notes { background: var(--surface); border-radius: var(--r-lg); padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; }
+  .notes-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .notes h2 { font-family: "Sora", system-ui, sans-serif; font-size: 1.15rem; letter-spacing: -0.02em; margin: 0; }
+  .notes-sub { margin: 2px 0 0; color: var(--muted); font-size: 0.88rem; }
+  .notes-sub b { color: var(--brand-ink); }
+  .note-form { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; background: var(--surface-2); padding: 12px; border-radius: var(--r-md); }
+  .note-form input, .note-form textarea {
+    font: inherit; color: var(--text); background: var(--surface); min-width: 0; width: 100%;
+    border: 1.5px solid var(--line); border-radius: var(--r-sm); padding: 10px 12px; resize: vertical;
+  }
+  .note-form input:focus, .note-form textarea:focus { outline: none; border-color: var(--brand); }
+  .note-form textarea, .note-form .edit-msg, .note-form .split-actions { grid-column: 1 / -1; }
+  .note-form .edit-msg { margin: 0; min-height: 0; }
+  .note-form .split-actions { margin-top: 0; }
+  @media (max-width: 560px) { .note-form { grid-template-columns: 1fr 1fr; } .note-form #noteEp { grid-column: 1 / -1; } }
+  .note-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .note-list:empty { display: none; }
+  .note {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center;
+    padding: 12px 14px; border-radius: var(--r-md); background: var(--surface-2); border: 1.5px solid transparent;
+  }
+  .note.is-due { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 35%, transparent); }
+  .note-main { min-width: 0; }
+  .note-ep { font-weight: 800; word-break: break-word; }
+  .note-time { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.88rem; color: var(--brand-ink); font-weight: 700; margin-left: 6px; white-space: nowrap; }
+  .note-desc { margin: 4px 0 0; color: var(--text); font-size: 0.92rem; white-space: pre-wrap; word-break: break-word; }
+  .note-meta { margin: 6px 0 0; display: flex; gap: 6px; flex-wrap: wrap; }
+  .note-meta span { font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--muted); }
+  .note.is-due .note-meta .when { background: var(--brand); color: var(--on-brand); }
+  .note-btns { display: flex; gap: 4px; align-items: center; }
+  .note-btns .btn-add { padding: 9px 14px; font-size: 0.88rem; }
+  .note-btns .del { width: 32px; }
+  .note.done { opacity: .7; }
+  .note-later summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; color: var(--muted); padding: 4px 2px; list-style: none; }
+  .note-later summary::-webkit-details-marker { display: none; }
+  .note-later summary::before { content: "▸ "; }
+  .note-later[open] summary::before { content: "▾ "; }
+  .note-later .note-list { margin-top: 8px; }
 
   /* ---------- grupos por dia ---------- */
   .groups { display: flex; flex-direction: column; gap: 28px; }
@@ -476,6 +540,26 @@
 </head>
 <body>
 <main>
+  <nav class="cads" id="cads" aria-label="Cadernos"></nav>
+  <form class="cad-form" id="cadForm" hidden autocomplete="off">
+    <p class="cad-title">Novo caderno</p>
+    <div class="cad-row">
+      <select id="cadLang" aria-label="Idioma">
+        <option value="es">🇪🇸 Espanhol</option>
+        <option value="en">🇺🇸 Inglês</option>
+        <option value="fr">🇫🇷 Francês</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="de">🇩🇪 Alemão</option>
+      </select>
+      <input id="cadName" placeholder="Nome do caderno (ex: Espanhol)" maxlength="30" aria-label="Nome do caderno">
+    </div>
+    <p class="cad-help">O caderno novo começa vazio, com a mesma estrutura: treino, áudio, fala, fluente, dias e trechos. O áudio e o microfone usam o idioma escolhido.</p>
+    <div class="split-actions">
+      <button class="btn-add" type="submit">Criar caderno</button>
+      <button class="tool" id="cadCancel" type="button">Cancelar</button>
+    </div>
+  </form>
+
   <header class="hero">
     <div class="hero-head">
       <div>
@@ -570,6 +654,33 @@
     </div>
   </div>
 
+  <section class="notes" id="notes">
+    <div class="notes-head">
+      <div>
+        <h2>Trechos dos episódios</h2>
+        <p class="notes-sub" id="notesSub">Anote o trecho que você estudou. Ele volta para revisão em 1 dia, 5 dias, 25 dias, 4 meses e 2 anos (método Pimsleur).</p>
+      </div>
+      <button class="day-study" id="noteNewBtn" type="button">Nova anotação</button>
+    </div>
+    <form class="note-form" id="noteForm" autocomplete="off" hidden>
+      <input id="noteEp" list="noteEpList" placeholder="Episódio (ex: Episódio 2, 1ª temporada)" aria-label="Episódio" maxlength="80">
+      <datalist id="noteEpList"></datalist>
+      <input id="noteStart" inputmode="numeric" placeholder="Comecei em (ex: 00:00)" aria-label="Tempo em que começou" maxlength="8">
+      <input id="noteEnd" inputmode="numeric" placeholder="Parei em (ex: 00:13)" aria-label="Tempo em que parou" maxlength="8">
+      <textarea id="noteDesc" rows="2" placeholder="Descrição (opcional): o que acontece, o que você aprendeu" aria-label="Descrição" maxlength="500"></textarea>
+      <p class="edit-msg" id="noteMsg"></p>
+      <div class="split-actions">
+        <button class="btn-add" type="submit">Salvar anotação</button>
+        <button class="tool" id="noteCancel" type="button">Cancelar</button>
+      </div>
+    </form>
+    <ul class="note-list" id="noteDue"></ul>
+    <details class="note-later" id="noteLaterBox" hidden>
+      <summary id="noteLaterSum"></summary>
+      <ul class="note-list" id="noteLater"></ul>
+    </details>
+  </section>
+
   <div class="groups" id="list"></div>
   <p class="status" id="status" role="status"></p>
 
@@ -599,13 +710,100 @@
 
 <script>
 (function () {
-  const LS_KEY = "minhas-palavras-v1";
+  // ---- cadernos (um para cada idioma) ----
+  const LANGS = {
+    en: { name: "inglês", Name: "Inglês", tts: "en-US", voice: /^en/i, flag: "🇺🇸", arts: /^(to|the|a|an)$/, hero: "#5B4BDB", heroDark: "#4B3FBF" },
+    es: { name: "espanhol", Name: "Espanhol", tts: "es-ES", voice: /^es/i, flag: "🇪🇸", arts: /^(el|la|los|las|un|una|unos|unas)$/, hero: "#D9482B", heroDark: "#A8361F" },
+    fr: { name: "francês", Name: "Francês", tts: "fr-FR", voice: /^fr/i, flag: "🇫🇷", arts: /^(le|la|les|un|une|des|l)$/, hero: "#2F6FD6", heroDark: "#2457A8" },
+    it: { name: "italiano", Name: "Italiano", tts: "it-IT", voice: /^it/i, flag: "🇮🇹", arts: /^(il|lo|la|i|gli|le|un|uno|una)$/, hero: "#1F9A5B", heroDark: "#167446" },
+    de: { name: "alemão", Name: "Alemão", tts: "de-DE", voice: /^de/i, flag: "🇩🇪", arts: /^(der|die|das|ein|eine|einen|zu)$/, hero: "#3B3B4F", heroDark: "#2C2C3C" }
+  };
+  const LS_CADS = "minhas-palavras-cadernos-v1";
+  let cads = { list: [{ id: "", name: "Inglês", lang: "en" }], current: "" };
+  try {
+    const c = JSON.parse(localStorage.getItem(LS_CADS) || "null");
+    if (c && Array.isArray(c.list) && c.list.length) cads = c;
+  } catch (e) {}
+  if (!cads.list.some(c => c.id === "")) cads.list.unshift({ id: "", name: "Inglês", lang: "en" });
+  let CAD = cads.list.find(c => c.id === cads.current) || cads.list[0];
+  const LANG = LANGS[CAD.lang] || LANGS.en;
+  const SFX = CAD.id ? "-" + CAD.id : ""; // o caderno de inglês usa as chaves antigas, sem perder nada
+  function saveCads() { try { localStorage.setItem(LS_CADS, JSON.stringify(cads)); } catch (e) {} }
+
+  const LS_KEY = "minhas-palavras-v1" + SFX;
   let words = [];            // {id, en, pt}
   const open = new Set();    // ids currently revealed
   let db = null, docRef = null, sampleFn = null;
   let splitOpen = null;      // id da frase sendo dividida
 
   const $ = (id) => document.getElementById(id);
+  function switchCad(id) {
+    cads.current = id; saveCads();
+    location.reload();
+  }
+  function renderCads() {
+    const nav = $("cads");
+    nav.innerHTML = "";
+    for (const c of cads.list) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cad" + (c === CAD ? " on" : "");
+      b.textContent = (LANGS[c.lang] || LANGS.en).flag + " " + c.name;
+      if (c === CAD) b.setAttribute("aria-current", "true");
+      else b.addEventListener("click", () => switchCad(c.id));
+      nav.appendChild(b);
+    }
+    const add = document.createElement("button");
+    add.type = "button"; add.className = "cad add"; add.textContent = "+ Novo caderno";
+    add.addEventListener("click", () => {
+      const f = $("cadForm"); f.hidden = !f.hidden;
+      if (!f.hidden) { $("cadName").value = ""; $("cadLang").value = "es"; $("cadName").placeholder = "Nome do caderno (ex: Espanhol)"; $("cadName").focus(); }
+    });
+    nav.appendChild(add);
+    if (CAD.id) {
+      const del = document.createElement("button");
+      del.type = "button"; del.className = "cad-del"; del.textContent = "Apagar este caderno";
+      let t = null;
+      del.addEventListener("click", () => {
+        if (!del.classList.contains("confirming")) {
+          del.classList.add("confirming"); del.textContent = "Apagar \u201C" + CAD.name + "\u201D e todas as frases?";
+          t = setTimeout(() => { del.classList.remove("confirming"); del.textContent = "Apagar este caderno"; }, 5000);
+          return;
+        }
+        clearTimeout(t);
+        try { ["minhas-palavras-v1", "minhas-palavras-dias-v1", "minhas-palavras-stats-v1", "minhas-palavras-notas-v1"].forEach(k => localStorage.removeItem(k + SFX)); } catch (e) {}
+        cads.list = cads.list.filter(c => c !== CAD);
+        switchCad("");
+      });
+      nav.appendChild(del);
+    }
+  }
+  renderCads();
+  $("cadLang").addEventListener("change", () => { $("cadName").placeholder = "Nome do caderno (ex: " + LANGS[$("cadLang").value].Name + ")"; });
+  $("cadCancel").addEventListener("click", () => { $("cadForm").hidden = true; });
+  $("cadForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const lang = $("cadLang").value;
+    const name = $("cadName").value.trim() || LANGS[lang].Name;
+    const id = "c" + Date.now().toString(36);
+    cads.list.push({ id, name, lang });
+    switchCad(id);
+  });
+
+  (function applyLang() {
+    const L = LANG;
+    document.title = "Minhas frases · " + CAD.name;
+    document.documentElement.style.setProperty("--hero-bg", L.hero);
+    document.documentElement.style.setProperty("--hero-bg-dark", L.heroDark);
+    const set = (sel, fn) => { const el = document.querySelector(sel); if (el) fn(el); };
+    set(".hero .sub", el => el.textContent = "Toque na frase em " + L.name + " para revelar a tradução.");
+    set("#inEn", el => { el.placeholder = "Frase em " + L.name; el.setAttribute("aria-label", "Frase em " + L.name); });
+    set(".paste-help", el => el.innerHTML = "Cole a lista com uma frase por linha, no formato <b>" + L.name + " = português</b>. Linhas sem \"=\" (como textos de explicação) são ignoradas, e a ordem é mantida.");
+    set("#pasteText", el => { if (L !== LANGS.en) el.placeholder = "Frase em " + L.name + " = tradução\nOutra frase = outra tradução"; });
+    set(".quiz-q", el => el.textContent = "Como se diz em " + L.name + "?");
+    set("#quizInput", el => { el.placeholder = "Escreva a frase em " + L.name; el.setAttribute("aria-label", "Sua resposta em " + L.name); });
+    set(".talk-label", el => el.textContent = "Fale em " + L.name);
+  })();
   const listEl = $("list"), countEl = $("count"), statusEl = $("status");
 
   function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
@@ -622,7 +820,7 @@
     if (!words.length) {
       const empty = document.createElement("p");
       empty.className = "empty";
-      empty.textContent = "Nenhuma frase ainda. Escreva uma em inglês acima, ou cole várias de uma vez.";
+      empty.textContent = "Nenhuma frase ainda. Escreva uma em " + LANG.name + " acima, ou cole várias de uma vez.";
       listEl.appendChild(empty);
       updatePronBtn();
       return;
@@ -776,7 +974,7 @@
   }
 
   // ---- dias ----
-  const LS_DAYS = "minhas-palavras-dias-v1";
+  const LS_DAYS = "minhas-palavras-dias-v1" + SFX;
   let dayNames = {};
   try {
     const dn = JSON.parse(localStorage.getItem(LS_DAYS) || "null");
@@ -853,7 +1051,7 @@
 
   // ---- storage ----
   // acertos e erros no geral (todas as respostas de treino)
-  const LS_STATS = "minhas-palavras-stats-v1";
+  const LS_STATS = "minhas-palavras-stats-v1" + SFX;
   let stats = { right: 0, wrong: 0, days: 0, last: "", backup: "" };
   try {
     const s = JSON.parse(localStorage.getItem(LS_STATS) || "null");
@@ -918,6 +1116,7 @@
     try { localStorage.setItem(LS_KEY, JSON.stringify(words)); } catch (e) {}
     try { localStorage.setItem(LS_STATS, JSON.stringify(stats)); } catch (e) {}
     try { localStorage.setItem(LS_DAYS, JSON.stringify(dayNames)); } catch (e) {}
+    saveNotesLocal();
   }
   function loadLocal() {
     try {
@@ -934,7 +1133,7 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(async () => {
       try {
-        await docRef.set({ list: words, stats, dayNames });
+        await docRef.set({ list: words, stats, dayNames, notes });
       } catch (e) {
         statusEl.textContent = "Não foi possível salvar na conta agora; ficou salvo neste navegador.";
       }
@@ -943,9 +1142,9 @@
 
   // ---- add ----
   const PRON_RULES =
-    "Pronúncia: escreva como se pronuncia no inglês americano usando a escrita do português do Brasil, " +
+    "Pronúncia: escreva como se pronuncia em " + LANG.name + " (sotaque padrão) usando a escrita do português do Brasil, " +
     "para um brasileiro ler em voz alta e soar parecido. Separe as sílabas com hífen e escreva a sílaba mais forte em MAIÚSCULAS. " +
-    "Não use símbolos fonéticos. Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu.";
+    "Não use símbolos fonéticos." + (LANG === LANGS.en ? " Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu." : "");
 
   let adding = false;
   $("addForm").addEventListener("submit", async (e) => {
@@ -990,8 +1189,8 @@
     btn.textContent = pt ? "Adicionando…" : "Traduzindo…";
     try {
       const prompt =
-        "Você ajuda um brasileiro a estudar inglês.\n" +
-        "Texto em inglês: " + JSON.stringify(en) + "\n" +
+        "Você ajuda um brasileiro a estudar " + LANG.name + ".\n" +
+        "Texto em " + LANG.name + ": " + JSON.stringify(en) + "\n" +
         (pt ? "Tradução escolhida pelo usuário (use exatamente esta): " + JSON.stringify(pt) + "\n" : "") +
         "1) Traduza o texto para o português do Brasil de forma natural (campo pt).\n" +
         "2) Escreva a pronúncia do texto inteiro (campo pr).\n" +
@@ -1089,6 +1288,7 @@
       versao: 1,
       exportado: new Date().toISOString(),
       nomesDosDias: dayNames,
+      anotacoes: notes,
       palavras: words.map(w => {
         const o = { en: w.en, pt: w.pt, dia: dayOf(w) || undefined };
         if (w.pr) o.pr = w.pr;
@@ -1183,6 +1383,18 @@
     if (!items) { statusEl.textContent = "Esse arquivo não é um JSON válido do sistema."; return; }
     try {
       const j = JSON.parse(await file.text());
+      if (j && Array.isArray(j.anotacoes)) {
+        const have = new Set(notes.map(n => n.id));
+        for (const n of j.anotacoes) {
+          if (!n || typeof n !== "object" || !n.ep || !n.start || !n.end) continue;
+          if (n.id && have.has(n.id)) continue;
+          const it = Object.assign({ step: 0, due: todayStr(1), reviews: 0, done: false }, n, { id: n.id || uid() });
+          if (typeof it.due !== "string") { it.due = todayStr(1); it.step = Math.max(0, Math.min(PIMSLEUR.length - 1, (Number(it.step) || 0) - 6)); delete it.dueAt; }
+          notes.push(it);
+        }
+        saveNotesLocal();
+        renderNotes();
+      }
       if (j && j.nomesDosDias && typeof j.nomesDosDias === "object") {
         for (const [k, v] of Object.entries(j.nomesDosDias)) {
           if (typeof v === "string" && v.trim() && !dayNames[k]) dayNames[k] = v.trim().slice(0, 60);
@@ -1258,10 +1470,9 @@
     try {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(String(text).split("/")[0].trim()); // lê a frase inteira (só "/" separa opções)
-      u.lang = "en-US";
+      u.lang = LANG.tts;
       u.rate = rate || 0.85;
-      const v = window.speechSynthesis.getVoices().find(v => /^en[-_]US/i.test(v.lang)) ||
-                window.speechSynthesis.getVoices().find(v => /^en/i.test(v.lang));
+      const vs = window.speechSynthesis.getVoices(); const v = vs.find(v => v.lang && v.lang.replace("_", "-").toLowerCase() === LANG.tts.toLowerCase()) || vs.find(v => LANG.voice.test(v.lang));
       if (v) u.voice = v;
       window.speechSynthesis.speak(u);
     } catch (e) {}
@@ -1433,7 +1644,7 @@
     if (listening) { try { rec.stop(); } catch (e) {} return; }
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) {}
     rec = new SR();
-    rec.lang = "en-US";
+    rec.lang = LANG.tts;
     rec.interimResults = true;
     rec.maxAlternatives = 5;
     rec.continuous = true; // espera mais tempo antes de desistir
@@ -1521,12 +1732,12 @@
       for (let i = 0; i < ens.length; i += 40) {
         const chunk = ens.slice(i, i + 40);
         const prompt =
-          "Para cada palavra ou frase em inglês da lista, escreva como ela se pronuncia no inglês americano, " +
+          "Para cada palavra ou frase em " + LANG.name + " da lista, escreva como ela se pronuncia (sotaque padrão), " +
           "usando a escrita do português do Brasil, de um jeito que um brasileiro leia em voz alta e soe parecido. " +
           "Separe as sílabas com hífen e escreva a sílaba mais forte em MAIÚSCULAS. Não use símbolos fonéticos. " +
-          "Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu.\n" +
+          (LANG === LANGS.en ? "Exemplos: beautiful -> BIÚ-ri-fou; water -> UÓ-rer; apple -> É-pou; how are you -> RAU-ar-iu; thank you -> TÉN-kiu.\n" : "\n") +
           "Lista: " + JSON.stringify(chunk) + "\n" +
-          'Responda somente com um objeto JSON no formato {"palavra em inglês": "pronúncia"}, usando exatamente as chaves da lista e sem nenhum outro texto.';
+          'Responda somente com um objeto JSON no formato {"texto original": "pronúncia"}, usando exatamente as chaves da lista e sem nenhum outro texto.';
         const res = await sampleFn.json(prompt, { modelTier: "quick" });
         if (res && typeof res === "object") {
           for (const w of words) {
@@ -1559,7 +1770,7 @@
     grid.className = "edit-grid";
     const fields = {};
     const defs = [
-      ["en", "Frase em inglês", w.en, false],
+      ["en", "Frase em " + LANG.name, w.en, false],
       ["pt", "Tradução", w.pt, false],
       ["pr", "Pronúncia", w.pr || "", false],
       ["ctx", "Nota", w.ctx || "", false]
@@ -1587,7 +1798,7 @@
     saveBtn.addEventListener("click", () => {
       const en = fields.en.value.trim(), pt = fields.pt.value.trim();
       const pr = fields.pr.value.trim(), ctx = fields.ctx.value.trim();
-      if (!en || !pt) { msg.textContent = "Inglês e português não podem ficar vazios."; return; }
+      if (!en || !pt) { msg.textContent = LANG.Name + " e português não podem ficar vazios."; return; }
       const k = enKey(en);
       if (words.some(o => o !== w && enKey(o.en) === k)) { msg.textContent = "\"" + en + "\" já está na sua lista."; return; }
       const enChanged = en !== w.en;
@@ -1678,7 +1889,7 @@
     const existing = pasteParsed.items.length - fresh.length;
     const merged = pasteParsed.items.filter(i => i.merged).length;
     sum.textContent = !pasteParsed.items.length
-      ? "Não encontrei nenhuma linha no formato inglês = português."
+      ? "Não encontrei nenhuma linha no formato " + LANG.name + " = português."
       : fresh.length + (fresh.length === 1 ? " nova" : " novas") +
         (merged ? ", " + merged + (merged === 1 ? " repetida juntada" : " repetidas juntadas") : "") +
         (existing ? ", " + existing + " já " + (existing === 1 ? "está" : "estão") + " na lista" : "");
@@ -1735,6 +1946,232 @@
     render(); save();
     statusEl.textContent = newWords.length === 1 ? "1 frase adicionada." : newWords.length + " frases adicionadas.";
     fillPronunciations(newWords);
+  });
+
+  // ---- trechos dos episódios (intervalos do método Pimsleur) ----
+  // só os intervalos em dias: 1 dia, 5 dias, 25 dias, 4 meses e 2 anos
+  const PIMSLEUR = [1, 5, 25, 120, 730];
+  const LS_NOTES = "minhas-palavras-notas-v1" + SFX;
+  let notes = [];
+  try {
+    const n = JSON.parse(localStorage.getItem(LS_NOTES) || "null");
+    if (Array.isArray(n)) notes = n.filter(x => x && typeof x === "object");
+  } catch (e) {}
+  // anotações antigas (com segundos e minutos) passam para a agenda em dias
+  for (const n of notes) {
+    if (typeof n.due === "string") continue;
+    const old = Number(n.step) || 0;
+    if (n.done) { n.due = todayStr(0); n.step = PIMSLEUR.length; continue; }
+    if (old <= 6) { n.step = 0; n.due = todayStr(1); }
+    else {
+      n.step = Math.min(PIMSLEUR.length - 1, old - 6);
+      const d = new Date(Number(n.dueAt) || Date.now());
+      n.due = d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+    }
+    delete n.dueAt;
+  }
+  function fmtDays(d) {
+    if (d <= 0) return "hoje";
+    if (d === 1) return "amanhã";
+    if (d < 60) return "em " + d + " dias";
+    const mo = Math.round(d / 30);
+    if (mo < 18) return "em " + mo + (mo === 1 ? " mês" : " meses");
+    return "em " + Math.round(d / 365) + " anos";
+  }
+  function isNoteDue(n) { return !n.done && daysUntil(n.due) <= 0; }
+  function saveNotesLocal() { try { localStorage.setItem(LS_NOTES, JSON.stringify(notes)); } catch (e) {} }
+
+  function fmtWait(ms) {
+    if (ms <= 0) return "agora";
+    const s = Math.ceil(ms / 1000);
+    if (s < 60) return "em " + s + " s";
+    const m = Math.ceil(s / 60);
+    if (m < 60) return "em " + m + " min";
+    const hh = Math.round(m / 60);
+    if (hh < 24) return "em " + hh + (hh === 1 ? " hora" : " horas");
+    const d = Math.round(hh / 24);
+    if (d === 1) return "amanhã";
+    if (d < 60) return "em " + d + " dias";
+    const mo = Math.round(d / 30);
+    if (mo < 18) return "em " + mo + (mo === 1 ? " mês" : " meses");
+    return "em " + Math.round(d / 365) + " anos";
+  }
+  function stepName(i) {
+    return ["5 segundos", "25 segundos", "2 minutos", "10 minutos", "1 hora", "5 horas", "1 dia", "5 dias", "25 dias", "4 meses", "2 anos"][i] || "";
+  }
+  function cleanTime(s) {
+    s = String(s).trim().replace(/[.,;h]/g, ":").replace(/\s+/g, "");
+    if (/^\d{3,6}$/.test(s)) { // 1234 -> 12:34, 10234 -> 1:02:34
+      s = s.padStart(s.length <= 4 ? 4 : 6, "0");
+      s = s.length === 4 ? s.slice(0, 2) + ":" + s.slice(2) : s.slice(0, 2) + ":" + s.slice(2, 4) + ":" + s.slice(4);
+    }
+    if (/^\d{1,2}$/.test(s)) s = "00:" + s.padStart(2, "0");
+    const m = s.match(/^(?:(\d{1,2}):)?(\d{1,3}):(\d{1,2})$/);
+    if (!m) return null;
+    const hh = Number(m[1] || 0), mm = Number(m[2]), ss = Number(m[3]);
+    if (ss > 59) return null;
+    const total = hh * 3600 + mm * 60 + ss;
+    const H = Math.floor(total / 3600), M = Math.floor((total % 3600) / 60), S = total % 60;
+    return { text: (H ? H + ":" + String(M).padStart(2, "0") : String(M).padStart(2, "0")) + ":" + String(S).padStart(2, "0"), secs: total };
+  }
+  function durText(a, b) {
+    const d = b - a;
+    if (d <= 0) return "";
+    if (d < 60) return d + " s";
+    const m = Math.floor(d / 60), s = d % 60;
+    return m + " min" + (s ? " " + s + " s" : "");
+  }
+  function notesDue() { return notes.filter(isNoteDue); }
+
+  function buildNote(n) {
+    const li = document.createElement("li");
+    const now = Date.now();
+    const isDueNow = isNoteDue(n);
+    li.className = "note" + (isDueNow ? " is-due" : "") + (n.done ? " done" : "");
+    const main = document.createElement("div");
+    main.className = "note-main";
+    const ep = document.createElement("span");
+    ep.className = "note-ep";
+    ep.textContent = n.ep;
+    const tm = document.createElement("span");
+    tm.className = "note-time";
+    tm.textContent = n.start + " → " + n.end;
+    main.append(ep, tm);
+    if (n.desc) {
+      const d = document.createElement("p");
+      d.className = "note-desc";
+      d.textContent = n.desc;
+      main.appendChild(d);
+    }
+    const meta = document.createElement("div");
+    meta.className = "note-meta";
+    const when = document.createElement("span");
+    when.className = "when";
+    when.textContent = n.done ? "Revisões concluídas" : (isDueNow ? "Revisar hoje" : "Próxima revisão " + fmtDays(daysUntil(n.due)));
+    const st = document.createElement("span");
+    st.textContent = "Revisão " + Math.min(n.step + 1, PIMSLEUR.length) + " de " + PIMSLEUR.length;
+    meta.append(when, st);
+    const dur = durText(n.startS, n.endS);
+    if (dur) { const ds = document.createElement("span"); ds.textContent = dur; meta.appendChild(ds); }
+    main.appendChild(meta);
+
+    const btns = document.createElement("div");
+    btns.className = "note-btns";
+    if (isDueNow) {
+      const rv = document.createElement("button");
+      rv.type = "button"; rv.className = "btn-add"; rv.textContent = "Revisei";
+      rv.title = "Marque depois de assistir o trecho de novo";
+      rv.addEventListener("click", () => {
+        n.step = (n.step || 0) + 1;
+        n.reviews = (n.reviews || 0) + 1;
+        n.last = Date.now();
+        if (n.step >= PIMSLEUR.length) { n.done = true; statusEl.textContent = "Trecho revisado em todos os intervalos!"; }
+        else { n.due = todayStr(PIMSLEUR[n.step]); statusEl.textContent = "Próxima revisão desse trecho " + fmtDays(PIMSLEUR[n.step]) + "."; }
+        renderNotes(); saveNotesAll();
+      });
+      btns.appendChild(rv);
+    }
+    const del = document.createElement("button");
+    del.type = "button"; del.className = "del"; del.textContent = "×";
+    del.setAttribute("aria-label", "Apagar anotação");
+    let t = null;
+    del.addEventListener("click", () => {
+      if (!del.classList.contains("confirming")) {
+        del.classList.add("confirming"); del.textContent = "Apagar?";
+        t = setTimeout(() => { del.classList.remove("confirming"); del.textContent = "×"; }, 3000);
+        return;
+      }
+      clearTimeout(t);
+      notes = notes.filter(x => x !== n);
+      renderNotes(); saveNotesAll();
+    });
+    btns.appendChild(del);
+    li.append(main, btns);
+    return li;
+  }
+
+  let notesDueCount = -1;
+  function renderNotes() {
+    const now = Date.now();
+    const byDue = (a, b) => String(a.due).localeCompare(String(b.due));
+    const due = notes.filter(isNoteDue).sort(byDue);
+    const later = notes.filter(n => !isNoteDue(n)).sort((a, b) => (a.done - b.done) || byDue(a, b));
+    const dl = $("noteDue"), ll = $("noteLater");
+    dl.innerHTML = ""; ll.innerHTML = "";
+    due.forEach(n => dl.appendChild(buildNote(n)));
+    later.forEach(n => ll.appendChild(buildNote(n)));
+    $("noteLaterBox").hidden = !later.length;
+    $("noteLaterSum").textContent = "Próximas revisões (" + later.length + ")";
+    const sub = $("notesSub");
+    if (due.length) {
+      sub.innerHTML = "";
+      const b = document.createElement("b");
+      b.textContent = due.length === 1 ? "1 trecho para revisar hoje." : due.length + " trechos para revisar hoje.";
+      sub.append(b, document.createTextNode(" Assista de novo e marque \u201CRevisei\u201D."));
+    } else if (notes.length) {
+      const next = later.filter(n => !n.done)[0];
+      sub.textContent = next ? "Nada para revisar hoje. A próxima revisão é " + fmtDays(daysUntil(next.due)) + "." : "Todos os trechos foram revisados em todos os intervalos.";
+    } else {
+      sub.textContent = "Anote o trecho que você estudou. Ele volta para revisão em 1 dia, 5 dias, 25 dias, 4 meses e 2 anos (método Pimsleur).";
+    }
+    // sugestões de episódio
+    const eps = Array.from(new Set(notes.map(n => n.ep).concat(Object.values(dayNames)).filter(Boolean)));
+    $("noteEpList").innerHTML = "";
+    eps.forEach(e => { const o = document.createElement("option"); o.value = e; $("noteEpList").appendChild(o); });
+    notesDueCount = due.length;
+    document.title = (due.length ? "(" + due.length + ") " : "") + "Minhas frases · " + CAD.name;
+  }
+
+  let notesSaveTimer = null;
+  function saveNotesAll() {
+    saveNotesLocal();
+    if (!docRef) return;
+    clearTimeout(notesSaveTimer);
+    notesSaveTimer = setTimeout(save, 300);
+  }
+
+  // confere a virada do dia (quando o site fica aberto de um dia para o outro)
+  setInterval(() => {
+    if (!notes.length) return;
+    const dueNow = notes.filter(isNoteDue).length;
+    if (dueNow !== notesDueCount) {
+      const became = dueNow > notesDueCount && notesDueCount >= 0;
+      renderNotes();
+      if (became) statusEl.textContent = "Tem trecho para revisar hoje!";
+    }
+  }, 60000);
+
+  $("noteNewBtn").addEventListener("click", () => {
+    const f = $("noteForm");
+    f.hidden = !f.hidden;
+    if (!f.hidden) {
+      const last = notes[notes.length - 1];
+      if (last && !$("noteEp").value) {
+        $("noteEp").value = last.ep;
+        if (!$("noteStart").value) $("noteStart").value = last.end; // continua de onde parou
+      }
+      ($("noteEp").value ? $("noteEnd") : $("noteEp")).focus();
+    }
+  });
+  $("noteCancel").addEventListener("click", () => { $("noteForm").hidden = true; $("noteMsg").textContent = ""; });
+  $("noteForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const msg = $("noteMsg");
+    const ep = $("noteEp").value.trim();
+    const a = cleanTime($("noteStart").value), b = cleanTime($("noteEnd").value);
+    if (!ep) { msg.textContent = "Escreva qual é o episódio."; $("noteEp").focus(); return; }
+    if (!a) { msg.textContent = "Escreva o tempo em que começou, no formato 00:00."; $("noteStart").focus(); return; }
+    if (!b) { msg.textContent = "Escreva o tempo em que parou, no formato 00:13."; $("noteEnd").focus(); return; }
+    if (b.secs <= a.secs) { msg.textContent = "O tempo em que parou precisa ser depois do tempo em que começou."; $("noteEnd").focus(); return; }
+    msg.textContent = "";
+    notes.push({
+      id: uid(), ep, start: a.text, end: b.text, startS: a.secs, endS: b.secs,
+      desc: $("noteDesc").value.trim(), created: Date.now(), step: 0, due: todayStr(PIMSLEUR[0]), reviews: 0, done: false
+    });
+    $("noteStart").value = b.text; $("noteEnd").value = ""; $("noteDesc").value = "";
+    $("noteForm").hidden = true;
+    renderNotes(); saveNotesAll();
+    statusEl.textContent = "Anotação salva. A primeira revisão é amanhã.";
   });
 
   // ---- palavras repetidas ----
@@ -1891,7 +2328,7 @@
   function norm(s) {
     return String(s).toLowerCase()
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      .replace(/[.,!?;:'"’‘´`]/g, "")
+      .replace(/[.,!?;:'"’‘´`¿¡«»“”]/g, "")
       .replace(/\s+/g, " ").trim();
   }
   // ---- correção (palavras e frases) ----
@@ -1927,7 +2364,7 @@
     return norm(t).replace(/-/g, " ").split(" ").filter(Boolean);
   }
   function optionsOf(correct) { return String(correct).split("/").map(s => s.trim()).filter(Boolean); }
-  function stripArticle(ws) { return ws.length <= 3 && /^(to|the|a|an)$/.test(ws[0] || "") && ws.length > 1 ? ws.slice(1) : ws; }
+  function stripArticle(ws) { return ws.length <= 3 && LANG.arts.test(ws[0] || "") && ws.length > 1 ? ws.slice(1) : ws; }
   function isRight(answer, correct) {
     const a = canonWords(answer);
     if (!a.length) return false;
@@ -2047,6 +2484,7 @@
     $("bar").hidden = true;
     $("addForm").hidden = true;
     $("pasteWrap").hidden = true;
+    $("notes").hidden = true;
     qEl.box.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 
@@ -2125,8 +2563,8 @@
     $("quizTalk").hidden = true;
     qEl.next.hidden = true;
     qEl.skip.hidden = false;
-    document.querySelector(".quiz-q").textContent = quiz.audio ? "Ouça e escreva em inglês" : "Como se diz em inglês?";
-    qEl.input.placeholder = quiz.audio ? "Escreva a frase que você ouviu" : "Escreva a frase em inglês";
+    document.querySelector(".quiz-q").textContent = quiz.audio ? "Ouça e escreva em " + LANG.name : "Como se diz em " + LANG.name + "?";
+    qEl.input.placeholder = quiz.audio ? "Escreva a frase que você ouviu" : "Escreva a frase em " + LANG.name;
     $("quizForm").hidden = false;
     updateQuizTop();
     qEl.input.focus();
@@ -2224,6 +2662,7 @@
     $("bar").hidden = false;
     $("addForm").hidden = false;
     $("pasteWrap").hidden = false;
+    $("notes").hidden = false;
     quiz.state = null;
     render();
   }
@@ -2281,6 +2720,8 @@
   }
   render();
 
+  renderNotes();
+
   (async function connect() {
     if (!window.claude || typeof window.claude.use !== "function") { connectDone = true; updateBackup(); return; }
     try {
@@ -2291,10 +2732,19 @@
       if (!db || !user) return;
       const id = await user.id();
       if (!id) return;
-      docRef = db.doc("data/users/" + id + "/vocab");
+      docRef = db.doc("data/users/" + id + "/vocab" + SFX);
       const snap = await docRef.get();
       if (snap.exists) {
         const data = snap.data() || {};
+        if (Array.isArray(data.notes)) {
+          const have = new Set(notes.map(n => n.id));
+          const byId = new Map(data.notes.filter(n => n && n.id).map(n => [n.id, n]));
+          // fica a versão com mais revisões de cada anotação
+          notes = notes.map(n => { const r = byId.get(n.id); return r && (r.reviews || 0) > (n.reviews || 0) ? r : n; })
+            .concat(data.notes.filter(n => n && n.id && !have.has(n.id)));
+          saveNotesLocal();
+          renderNotes();
+        }
         if (data.dayNames && typeof data.dayNames === "object") {
           dayNames = Object.assign({}, data.dayNames, dayNames);
         }
