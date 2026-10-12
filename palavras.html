@@ -123,6 +123,9 @@
   .cad.on { background: var(--hero-bg, var(--brand)); color: #fff; }
   .cad.add { background: transparent; box-shadow: none; color: var(--brand-ink); border: 1.5px dashed var(--line); }
   .cad.add:hover { background: var(--brand-soft); }
+  .backup-all { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; margin-top: -8px; font-size: 0.82rem; color: var(--muted); font-weight: 700; }
+  .backup-all span { margin-right: 4px; }
+  .backup-all .tool { padding: 6px 10px; font-size: 0.82rem; color: var(--brand-ink); }
   .cad-del { margin-left: auto; background: transparent; border: 0; color: var(--muted); font-size: 0.8rem; font-weight: 700; padding: 6px 8px; border-radius: 999px; }
   .cad-del:hover { color: var(--bad); }
   .cad-del.confirming { background: var(--bad); color: #fff; }
@@ -541,6 +544,12 @@
 <body>
 <main>
   <nav class="cads" id="cads" aria-label="Cadernos"></nav>
+  <div class="backup-all">
+    <span>Todos os cadernos:</span>
+    <button class="tool" id="allExport" type="button">Exportar tudo (JSON)</button>
+    <button class="tool" id="allImport" type="button">Importar tudo (JSON)</button>
+    <input type="file" id="allFile" accept=".json,application/json" hidden>
+  </div>
   <form class="cad-form" id="cadForm" hidden autocomplete="off">
     <p class="cad-title">Novo caderno</p>
     <div class="cad-row">
@@ -779,6 +788,95 @@
     }
   }
   renderCads();
+
+  // ---- backup completo: todos os cadernos num único JSON ----
+  const PARTS = { frases: "minhas-palavras-v1", dias: "minhas-palavras-dias-v1", placar: "minhas-palavras-stats-v1", trechos: "minhas-palavras-notas-v1" };
+  function readLS(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function writeLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  $("allExport").addEventListener("click", async () => {
+    try { if (typeof save === "function") save(); } catch (e) {}
+    const data = {
+      app: "minhas-frases-backup",
+      versao: 1,
+      exportado: new Date().toISOString(),
+      cadernos: cads.list.map(c => {
+        const sfx = c.id ? "-" + c.id : "";
+        const o = { id: c.id, nome: c.name, idioma: c.lang };
+        for (const [name, key] of Object.entries(PARTS)) o[name] = readLS(key + sfx);
+        return o;
+      })
+    };
+    const text = JSON.stringify(data, null, 2);
+    const d = new Date(), z = n => String(n).padStart(2, "0");
+    const filename = "backup-minhas-frases-" + d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate()) + ".json";
+    const total = data.cadernos.reduce((s, c) => s + (Array.isArray(c.frases) ? c.frases.length : 0), 0);
+    const msg = "Backup salvo: " + data.cadernos.length + (data.cadernos.length === 1 ? " caderno, " : " cadernos, ") + total + (total === 1 ? " frase." : " frases.");
+    try {
+      if (typeof downloadsCap !== "undefined" && downloadsCap) { await downloadsCap.save({ filename, data: text }); $("status").textContent = msg; return; }
+    } catch (e) { $("status").textContent = "Exportação cancelada."; return; }
+    try {
+      const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+      const a = document.createElement("a"); a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      $("status").textContent = msg;
+    } catch (e) { $("status").textContent = "Não foi possível exportar neste navegador."; }
+  });
+  $("allImport").addEventListener("click", () => { $("allFile").value = ""; $("allFile").click(); });
+  $("allFile").addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    let j = null;
+    try { j = JSON.parse(await file.text()); } catch (err) {}
+    if (!j || !Array.isArray(j.cadernos)) {
+      $("status").textContent = "Esse arquivo não é um backup completo. Para o arquivo de um caderno só, use o Importar de baixo.";
+      return;
+    }
+    let addedCads = 0, addedWords = 0;
+    for (const c of j.cadernos) {
+      if (!c || typeof c !== "object") continue;
+      const lang = LANGS[c.idioma] ? c.idioma : "en";
+      let id = typeof c.id === "string" ? c.id : "";
+      let mine = cads.list.find(x => x.id === id);
+      if (!mine) {
+        if (id && !/^c[0-9a-z]+$/.test(id)) id = "c" + Date.now().toString(36) + addedCads;
+        mine = { id, name: String(c.nome || LANGS[lang].Name).slice(0, 30), lang };
+        cads.list.push(mine);
+        addedCads++;
+      }
+      const sfx = mine.id ? "-" + mine.id : "";
+      // frases: junta, sem repetir
+      const cur = readLS(PARTS.frases + sfx) || [];
+      const ids = new Set(cur.map(w => w && w.id));
+      const keyOf = w => String(w.en || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+      const keys = new Set(cur.map(keyOf));
+      const fresh = (Array.isArray(c.frases) ? c.frases : []).filter(w => w && w.en && w.pt && !ids.has(w.id) && !keys.has(keyOf(w)));
+      addedWords += fresh.length;
+      writeLS(PARTS.frases + sfx, fresh.concat(cur));
+      // nomes dos dias
+      const dn = Object.assign({}, c.dias || {}, readLS(PARTS.dias + sfx) || {});
+      writeLS(PARTS.dias + sfx, dn);
+      // placar: fica o maior
+      const ps = readLS(PARTS.placar + sfx) || {}, ns = c.placar || {};
+      writeLS(PARTS.placar + sfx, Object.assign({}, ns, ps, {
+        right: Math.max(Number(ps.right) || 0, Number(ns.right) || 0),
+        wrong: Math.max(Number(ps.wrong) || 0, Number(ns.wrong) || 0),
+        days: (ns.last || "") > (ps.last || "") ? ns.days : ps.days,
+        last: (ns.last || "") > (ps.last || "") ? ns.last : ps.last
+      }));
+      // trechos
+      const cn = readLS(PARTS.trechos + sfx) || [];
+      const nids = new Set(cn.map(n => n && n.id));
+      writeLS(PARTS.trechos + sfx, cn.concat((Array.isArray(c.trechos) ? c.trechos : []).filter(n => n && n.id && !nids.has(n.id))));
+    }
+    saveCads();
+    try { sessionStorage.setItem("minhas-frases-msg", (addedWords === 1 ? "1 frase importada" : addedWords + " frases importadas") + (addedCads ? ", " + addedCads + (addedCads === 1 ? " caderno novo." : " cadernos novos.") : ".")); } catch (err) {}
+    location.reload();
+  });
+  try {
+    const m = sessionStorage.getItem("minhas-frases-msg");
+    if (m) { sessionStorage.removeItem("minhas-frases-msg"); setTimeout(() => { $("status").textContent = m; }, 400); }
+  } catch (e) {}
   $("cadLang").addEventListener("change", () => { $("cadName").placeholder = "Nome do caderno (ex: " + LANGS[$("cadLang").value].Name + ")"; });
   $("cadCancel").addEventListener("click", () => { $("cadForm").hidden = true; });
   $("cadForm").addEventListener("submit", (e) => {
